@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Preface: This is a concise and simple guide to hosting a remote git server. I have been researching this topic for a while and came up with the idea of writing an article with a step-by-step guide for hosting a private git server. Covering all the aspects of git is not possible in a single article, so it’s assumed that the reader has prior knowledge of git and version control.">  
+
+  <title>
+    
+      Setting Up a Remote Git Server — A Simple and Concise Step-by-Step Guide to Host a Private Git Server
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-02-10 00:00:00 &#43;0000 UTC">
+            2024-02-10
+        </time>
+    </p>
+
+    <h1>Setting Up a Remote Git Server — A Simple and Concise Step-by-Step Guide to Host a Private Git Server</h1>
+
+    
+
+    <p><em>Preface: This is a concise and simple guide to hosting a remote git server. I have been researching this topic for a while and came up with the idea of writing an article with a step-by-step guide for hosting a private git server. Covering all the aspects of git is not possible in a single article, so it’s assumed that the reader has prior knowledge of git and version control.</em></p>
+<h2 id="introduction-to-private-remote-git-server">Introduction to Private Remote Git Server</h2>
+<p>A private remote git server allows multiple developers to collaborate and develop software with the comfort of version control. All the codebase and files would be stored in the remote git repository with each change tracked systematically. Although there are plenty of options to go with for remote git management services, owning a private server provides the organisation with more control over their data as well as customisations they can make over their property. These git servers can be paired with domain names for convenience and hence, the organisation enjoys the ownership of its data.</p>
+<p>If the software is intended to be hosted openly for the public, a simple web interface works fine here and would be covered here (having a domain name like <code>git.domain-name.tld</code> can be done here).</p>
+<p>To set up a remote git server, you need the resources mentioned here:</p>
+<ol>
+<li>Remote Linux Server (I prefer Debian and Cloud-based) as per the requirements and load-handling capabilities</li>
+<li>Computer to SSH into the Server</li>
+<li>Domain Name (Optional)</li>
+</ol>
+<p>The size of the Linux Server is as per the requirements of the organisation. This depends upon the load to withstand, the size of the files, network load, availability, etc. I usually prefer cloud servers for easy processes and upgradability if required (vertical scaling).</p>
+<h2 id="setting-up-a-git-user-in-the-remote-git-server">Setting Up a “git” User in the Remote Git Server</h2>
+<p>The first step is to SSH into your remote server (or even have a physical connection and access it, doesn’t matter) and log into it.</p>
+<p>The service that is going to run on the remote git server would be running as the “git” user. Although any user can use it and even root works fine, but this would cause a security issue and hence is not recommended. Also using a username called “git” would work systematically in future settings.</p>
+<p>To add a new user on Debian:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo adduser git
+</span></span><span style="display:flex;"><span>su git
+</span></span></code></pre></div><p>This will ask a couple of questions that can be resolved and the terminal will now log in as the “git” user. Now all the configurations (unless stated) would be done with this user. It’s a good idea to configure only git-related configurations with the user for security purposes.</p>
+<h2 id="setting-up-ssh-access-to-the-remote-git-server">Setting Up SSH Access to the Remote Git Server</h2>
+<p>This is the part where access to all the participants of the Git Server would be provided. This can be updated in future too to add more participants to the git server. This required generating their SSH private and public key with the following commands and adding them to the remote server.</p>
+<p>On the participant&rsquo;s computer (if id_rsa file exists on the computer, this part can be skipped):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd ~/
+</span></span><span style="display:flex;"><span>cd .ssh 
+</span></span><span style="display:flex;"><span>ssh-keygen
+</span></span></code></pre></div><p>In case the <code>.ssh</code> directory is not found, create it by <code>mkdir .ssh</code> command. The <code>ssh-keygen</code> command generated a private and public key. While naming them, it&rsquo;s a good practice to name them <code>id_rsa</code> which would allow the <code>ssh</code> command to work without <code>-i</code> to provide a key, it would self-detect the file. At the end of this procedure, two files will be generated: <code>id_rsa</code> and <code>id_rsa.pub</code> and will be stored in the <code>.ssh</code> directory.</p>
+<p>This needs to be done on all the participant’s computers to create access keys to the remote git server.</p>
+<p>Now the Public Keys generated need to be provided to the remote git server. It can be done via the following commands (in the “git” user):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kdir .ssh
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">700</span> .ssh/
+</span></span><span style="display:flex;"><span>touch .ssh/authorized_keys
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">600</span> .ssh/authorized_keys
+</span></span><span style="display:flex;"><span>vim .ssh/authorized_keys
+</span></span></code></pre></div><p>Any text editor can be used here instead of Vim. In this file, all the Public Keys need to be appended. On the participant’s computer, <code>cat .ssh/id_rsa.pub</code> and copy-paste it into the <code>.ssh.authorized_keys</code> file on the remote git server. All the public keys must be pasted one by one on each line.</p>
+<p>After this procedure, all the participants whose public keys were appended would be able to SSH into the git server without any password (due to the public key being present in the <code>.ssh</code> directory).</p>
+<h2 id="setting-up-required-tools-in-the-remote-git-server">Setting Up Required Tools in the Remote Git Server</h2>
+<p>The server now requires to installation of the tools given below with the commands (Here, Debian commands would be provided. Although this must work with almost all Linux systems and only tools are required. It can be done with any package manager).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade
+</span></span><span style="display:flex;"><span>sudo apt install git gitweb fcgiwrap nginx
+</span></span></code></pre></div><p>This will install the required tools for setting up the remote git server. For reference, <code>git</code> is the version control application. <code>gitweb</code> would provide a web interface for the git server. <code>fcgiwrap</code> is a simple FastCGI wrapper for CGI scripts required for <code>Nginx</code> and nginx is the HTTP server for the web application to run.</p>
+<h2 id="setting-up-the-repository-in-the-remote-git-server">Setting Up the Repository in the Remote Git Server</h2>
+<p>This step requires switching to the <code>root</code> user. A git directory needs to be created where all the projects would be stored. The official git server documentation uses <code>/srv/git</code> which can be used or even it’s as per the server administrator to store the projects. Although, it is recommended to do it in <code>/var/www/git</code>. This is because this folder is intended to be the hosting section of Linux Server. The <code>/var/www/html</code> is where the apache2 service hosts the files from. So it’s convenient to have the <code>git</code> there. Again, it can be done anywhere on the server.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /var/www
+</span></span><span style="display:flex;"><span>mkdir /var/www/git
+</span></span><span style="display:flex;"><span>chown git:git git/
+</span></span><span style="display:flex;"><span>cd git
+</span></span><span style="display:flex;"><span>su git
+</span></span></code></pre></div><p>The <code>chown</code> command transferred the ownership of the file to the “git” user. Now all the projects would be stored in this directory. For demonstration purposes, a directory called <code>dotfiles.git</code> can be created. This directory is usually used to have a backup of scripts that are required to run a computer that was developed by the user (note the “.git” extension at the end of the directory name).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir dotfiles.git
+</span></span></code></pre></div><p>Now to initiate this project:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git init --bare
+</span></span></code></pre></div><p>Now the git server has been configured with a project called <code>dotfiles.git</code> and can be used to store projects and get files stored into it. Multiple projects can be created as per the requirements and the procedure remains the same.</p>
+<h2 id="configuring-local-repositories-to-remote-git-server">Configuring Local Repositories to Remote Git Server</h2>
+<p>The Local Repositories on the participant’s computers now need to be configured with the Remote Git Server. This requires editing a file in the <code>.git</code> folder in the repository.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim .git/config
+</span></span></code></pre></div><p>Again, any text editor can be used instead of Vim. Now a remote section needs to be added to the config file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>remote <span style="color:#e6db74">&#34;&lt;name&gt;&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  url <span style="color:#f92672">=</span> &lt;username&gt;@&lt;server-ip or domain-name&gt;:&lt;absolute-path-to-project&gt;.git
+</span></span><span style="display:flex;"><span>  fetch <span style="color:#f92672">=</span> +refs/heads/*:refs/remotes/home/*
+</span></span></code></pre></div><p>For example, if all instructions all followed including references, it might look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>remote <span style="color:#e6db74">&#34;git-server&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  url <span style="color:#f92672">=</span> git@&lt;server-ip or domain-name&gt;:/var/www/git/dotfiles.git
+</span></span><span style="display:flex;"><span>  fetch <span style="color:#f92672">=</span> +refs/heads/*:refs/remotes/home/*
+</span></span></code></pre></div><p>Now git is ready to push the contents from the local repository to the remote git repository. This can be done with the commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push &lt;name&gt; &lt;branch-name&gt;
+</span></span></code></pre></div><p>For example with previous references, it might look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push git-server master
+</span></span></code></pre></div><p>Done! now all the content from the local git repository would be pushed into the remote git repository.</p>
+<p>This can be verified in the remote git server by going to the project file and using the command <code>git log</code> which would contain the logs of commit and pushes done.</p>
+<h2 id="setting-up-web-interface-for-the-remote-git-server">Setting Up Web Interface for the Remote Git Server</h2>
+<p>To set up the Web Interface for your Remote Git Server, you need to expose port 80 (for HTTP) or port 443 (for HTTPS). Here, steps for an HTTP server are provided as HTTPS configuration is out of the scope of this article. Hence, port 80 must be open and it should be made sure that the firewall is not blocking incoming or outgoing traffic on port 80 (usually, cloud servers have this by default closed and need to be configured manually).</p>
+<p>Here, gitweb would be used to create the website files and content management. Furthermore, Nginx would be used to host these files. To set gitweb, the following commands can be used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo vim /etc/gitweb.conf
+</span></span></code></pre></div><p>Again, any text editor would do the job. Here, the <code>$projectroot</code> needs to be modified. It should be set to the directory of projects. Regarding the previous steps, it should look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$projectroot <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/var/www/git&#34;</span>
+</span></span></code></pre></div><p>If in any part modifications of files throw any issue, try using <code>sudo</code> to get superuser rights to do it.</p>
+<p>After this, the Nginx needs to be configured. To do this, a file needs to be created in the <code>/etc/nginx/sites-available</code> directory. The following commands can be used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo touch /etc/nginx/sites-available/&lt;file-name&gt;.conf
+</span></span><span style="display:flex;"><span>sudo vim /etc/nginx/sites-available/&lt;file-name&gt;.conf
+</span></span></code></pre></div><p>The “file-name” can be anything. To configure this file, the following configuration can be used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  listen 80;
+</span></span><span style="display:flex;"><span>  server_name &lt;domain-name or server-ip&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location /index.cgi <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    root /usr/share/gitweb/;
+</span></span><span style="display:flex;"><span>    include fastcgi_params;
+</span></span><span style="display:flex;"><span>    gzip off;
+</span></span><span style="display:flex;"><span>    fastcgi_param SCRIPT_NAME $uri;
+</span></span><span style="display:flex;"><span>    fastcgi_param GITWEB_CONFIG /etc/gitweb.conf;
+</span></span><span style="display:flex;"><span>    fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    root /usr/share/gitweb/;
+</span></span><span style="display:flex;"><span>    index index.cgi;
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>The “server_name” variable needs to be configured as per the domain name or the IP address (in case there is no domain name configured with the IP address).</p>
+<p>To start the Nginx Server, the following commands can be used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl restart nginx
+</span></span></code></pre></div><p>Done! The web interface will be available now on the domain name or IP address.</p>
+<p>At this point, a full-fledged Remote Git Server has been set up on the remote server and can be used for the development and distribution of code.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Owning a private remote git server allows developers to have total control over their data and allows them to manage it as per their requirements. During the process of setting it up, there might be issues even if the guide is thoroughly followed, as it always happens. This can be resolved with some troubleshooting on the internet or by going through the official documents of the tools used in this process. Although efforts have been made to make this guide self-sufficient to walk-through developers to set up a remote git repository, issues persist in varying environments.</p>
+<p>The link to official docs is provided here:</p>
+<p>Git Docs: <a href="https://git-scm.com/doc">https://git-scm.com/doc</a></p>
+<p>Git Remote Server Docs:https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server</p>
+<p>Nginx Docs: <a href="https://docs.nginx.com/">https://docs.nginx.com/</a></p>
+<p>fcgiwrap Docs:</p>
+<ul>
+<li><a href="https://github.com/gnosek/fcgiwrap">https://github.com/gnosek/fcgiwrap</a></li>
+<li><a href="https://www.nginx.com/resources/wiki/start/topics/examples/fcgiwrap/">https://www.nginx.com/resources/wiki/start/topics/examples/fcgiwrap/</a></li>
+</ul>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>

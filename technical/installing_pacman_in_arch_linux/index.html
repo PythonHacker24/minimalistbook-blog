@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Let me suckless and divide the article into two parts:
+My story how I blew up Pacman Package Manager
+How to reinstall the Pacman Package Manager
+If you only care about the second part, skip the first one.
+The Scenario — Blow it Up
+I was trying to install the pacman game from the Internet to get it running on my Arch Linux Terminal (I use Suckless Terminal BTW). When I got it installed and played it, it was super awesome. It was fun to the point that I decided to add it to my /usr/bin directory to make it my usual command and play it whenever I want. This is where I messed up and replaced the Pacman Package Manager binary with the Pacman Game binary. And now I ended up losing it and unable to update or install anything to my system and enabled me to play a Pacman Game.">  
+
+  <title>
+    
+      Installing Pacman in Arch Linux — When You Blow it Up
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-01-17 00:00:00 &#43;0000 UTC">
+            2024-01-17
+        </time>
+    </p>
+
+    <h1>Installing Pacman in Arch Linux — When You Blow it Up</h1>
+
+    
+
+    <p>Let me suckless and divide the article into two parts:</p>
+<p>My story how I blew up Pacman Package Manager
+How to reinstall the Pacman Package Manager
+If you only care about the second part, skip the first one.</p>
+<h2 id="the-scenario--blow-it-up">The Scenario — Blow it Up</h2>
+<p>I was trying to install the pacman game from the Internet to get it running on my Arch Linux Terminal (I use Suckless Terminal BTW). When I got it installed and played it, it was super awesome. It was fun to the point that I decided to add it to my /usr/bin directory to make it my usual command and play it whenever I want. This is where I messed up and replaced the Pacman Package Manager binary with the Pacman Game binary. And now I ended up losing it and unable to update or install anything to my system and enabled me to play a Pacman Game.</p>
+<p>Now when you are in a relaxed state and don’t have a broad angle of thinking what you are doing, you ending messing things up. And it may be a case happened to you too and you might too have blown you Pacman Package Manager by any reason (trust me, you messed up).</p>
+<p>It is a 2 minutes solution which took me 2 hours to find out. I am including the steps here so that you can save your good time.</p>
+<h2 id="looking-on-the-brighter-side">Looking on the Brighter Side</h2>
+<p>The 2 hours went by where some of the good hours that Arch Linux gives you frequently. Last time, it was a Wi-Fi driver error due to outdated kernel which I documented in my other article. This is what I use Arch for: not just getting my system fast and make it the most custom tailored operating system ever, but also learning a lot of things through challenges like this. I actually love these challenges that come in my way to make me think valid approaches and tackle that problem.</p>
+<p>I first thought of using pacstrap (which of course was not a command in my Arch Distro). To overcome this, I got my Arch Installation media (super useful to have: for installing Arch in new systems and debugging existing machines as well) ready, which is a 16GB USB. I plugged it in, used <code>iwctl</code> to connect to the Wi-Fi, mount the SSD with my Arch Linux with the commands <code>mkdir /mnt/boot</code>, <code>mount /dev/sda1</code> <code>/mnt/boot</code>, <code>mount /dev/sda2 /mnt</code> (mine was sda labelled). Then I pacstrapped it: <code>pacstrap /mnt base base-devel</code>. And it failed.</p>
+<p>Then spent time with the the Arch Wiki (this takes the most amout of time) and got the whole git repo of Pacman Package Manager cloned in my system. Followed all the steps to get the meson build ready as well as ninja build and install. At last, didn’t work (it will work in the solutions part).</p>
+<p>After this part, I did make it happen. It was just a small configuration of adding repositories to the configuration, from which the Arch Linux will install all of it’s tools.</p>
+<h2 id="solution-to-the-problem-getting-pacman-package-manager-installed-on-the-system">Solution to the Problem: Getting Pacman Package Manager Installed on the System</h2>
+<ol>
+<li>Get the Pacman Package Manager git repository cloned in your system <code>git clone https://gitlab.archlinux.org/pacman/pacman.git</code></li>
+<li>Get the Build and Install Procedures done :</li>
+</ol>
+<ul>
+<li><code>$ meson build</code></li>
+<li><code>$ ninja -C build</code></li>
+<li><code>$ ninja -C build install</code></li>
+</ul>
+<ol start="3">
+<li>Edit the pacman.conf file: File location: <code>/etc/pacman.conf</code>. Add these lines in the pacman.conf.</li>
+</ol>
+<p>[core]
+Include = /etc/pacman.d/mirrorlist</p>
+<p>[extra]
+Include = /etc/pacman.d/mirrorlist</p>
+<p>[community]
+Include = /etc/pacman.d/mirrorlist</p>
+<ol start="4">
+<li>Update the mirrorlist with the Official Arch Linux Mirrorlist Generator. Just selected the desired location and other settings. Then just copy and paste them in the file <code>/etc/pacman.d/mirrorlist</code>.</li>
+</ol>
+<p>Arch Official Mirrorlist Generator: <code>https://archlinux.org/mirrorlist/</code></p>
+<p>And the Pacman Package Manager would run as expected with the command <code>pacman</code>. Try doing <code>pacman -Syu</code> which updates your system for testing it.</p>
+<p>Official Webpage for Pacman: <a href="https://archlinux.org/pacman/">https://archlinux.org/pacman/</a></p>
+<p>If still you Pacman Package Manager doesn’t work out, I am really sorry for your loss. You need to try harder to get it done. I would like to know if there are even more ways to solve this problem (or even things can go even more wrong). Although theoretically it must work by now, but in case if it doesn’t, happy solving the issue.</p>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>

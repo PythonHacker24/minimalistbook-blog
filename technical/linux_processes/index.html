@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Preface: I have been going through the book “Linux Kernel Development” by Robert Love which I highly recommend for understanding the Linux Kernel in depth. I decided to write this article to explain “Linux Processes” simply and concisely. The topic itself is broad and is not explained into the deepest of it, but essential for Linux Administrators, Developers and even Linux users to appreciate the beauty of the Kernel they make use of every day.">  
+
+  <title>
+    
+      Linux Processes — A Kernel’s Perspective Explained with Clarity and Simplicity
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-01-31 00:00:00 &#43;0000 UTC">
+            2024-01-31
+        </time>
+    </p>
+
+    <h1>Linux Processes — A Kernel’s Perspective Explained with Clarity and Simplicity</h1>
+
+    
+
+    <p><em><!-- raw HTML omitted -->Preface:<!-- raw HTML omitted --> I have been going through the book “Linux Kernel Development” by Robert Love which I highly recommend for understanding the Linux Kernel in depth. I decided to write this article to explain “Linux Processes” simply and concisely. The topic itself is broad and is not explained into the deepest of it, but essential for Linux Administrators, Developers and even Linux users to appreciate the beauty of the Kernel they make use of every day.</em></p>
+<h2 id="a-clear-definition-of-a-process">A Clear Definition of a Process</h2>
+<p>A process is a program amid execution.</p>
+<p>The object code that contains the instructions for the system to execute is stored in some kind of media. When the code starts executing, a process is created then and continues to exist to the point, that the execution of the code ends.</p>
+<p>Processes, however, are more than just the execution of code by passing it to the CPU and fetching out existing results. They are a package of systems that execute, run and store various amounts of elements and ensure smooth execution of a code with an optimal amount of resources and maintain a degree of transparency with the system. They consolidate various factors like the memory space, processor state, internal kernel data, memory mappings, threads of execution as well as global variables (in the data section).</p>
+<p>Usually in the world of Linux, a process can be referred to as a task.</p>
+<h2 id="a-clear-definition-of-a-thread">A Clear Definition of a Thread</h2>
+<p>Threads of executions are the activities that go on within a process.</p>
+<p>A Thread has its own unique program counter, process stack, and a set of processor registers (they are very similar to process). The Kernel schedules threads, also referred to as kernel threads are executed solely in the kernel space. Traditional UNIX programs used to have only one thread for a process. Modern Operating Systems are multi-threaded and a process can spawn multiple threads to get its task done.</p>
+<p>Linux has a unique implementation of threads: It does not differentiate between threads and processes. Linux considers threads to be a special kind of process (this can be seen clearly in the source code about the considerations of threads as a process with special modifications).</p>
+<h2 id="illusion-within-processes--virtualisation-of-resources">Illusion within Processes — Virtualisation of Resources</h2>
+<p>Modern Operating Systems provides two visualisations to processes:</p>
+<ol>
+<li>Virtual Processor</li>
+<li>Virtual Memory</li>
+</ol>
+<p>A process is allocated with a Virtual Processor, so it considers that the whole system is its own space of execution and that it exists alone in the system. Virtual Memory provides the illusion of freedom to the process of allocating required memory.</p>
+<p>In short, processes are isolated and have the illusion of being alone in the whole system.</p>
+<h2 id="programs-are-not-processes">Programs are not Processes</h2>
+<p>A Program is not a process, but a process is an active program. A program can have multiple processes and those processes can have multiple threads and child processes running. For these purposes, a lot of system calls are implemented and ensure a smooth order of execution and handle edge cases.</p>
+<h2 id="process-descriptor-and-the-task-structure">Process Descriptor and the Task Structure</h2>
+<p>Linux Kernel stores the list of processes in a circular doubly linked list called the task list (for me, it’s amazing to see the implementation of a circular doubly linked list and imagine how new tasks will be added to the circle to increase its size).</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*RofH6lmSNOCD1jFA-33KNA.png" alt="diagram"></p>
+<p>Each element in the task list is a process descriptor and it is of the type <code>struct task_struct</code> which is defined in &lt;linux/sched.h&gt;. The process descriptor contains all the information about a specific process. The process descriptor in itself is a very big data structure but consolidates all the information the Kernel needs to know about a process. It is around 1.7 kilobytes on a 32-bit machine.</p>
+<h2 id="the-allocation-of-process-descriptor">The Allocation of Process Descriptor</h2>
+<p>In the x86 architecture systems, the <em>task_struct</em> was stored at the end of the kernel stack of each process. This allowed the usage of a few registers to calculate the location of the process descriptor via the stack pointer (which saves the usage of an extra register).</p>
+<p>For modern systems, <em>slab allocator</em> is used that stores a new structure <em>struct thread_info</em> that lives at the bottom of the stack in case of stacks growing downwards and at the top of the stack for stacks growing upwards.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> thread_info {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>task;  <span style="color:#75715e">/* main task structure */</span>
+</span></span><span style="display:flex;"><span> __u32   flags;  <span style="color:#75715e">/* low level flags */</span>
+</span></span><span style="display:flex;"><span> __u32   status;  <span style="color:#75715e">/* thread synchronous flags */</span>
+</span></span><span style="display:flex;"><span> __u32   cpu;  <span style="color:#75715e">/* current CPU */</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">int</span>   saved_preempt_count;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">mm_segment_t</span>  addr_limit;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">void</span> __user  <span style="color:#f92672">*</span>sysenter_return;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>  sig_on_uaccess_error:<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>  uaccess_err:<span style="color:#ae81ff">1</span>; <span style="color:#75715e">/* uaccess failed */</span>
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>The task element of the structure is a pointer to the task’s actual task_struct.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*a4EbEPWfT5WgEoLcc-worw.png" alt="diagram"></p>
+<h2 id="the-process-state">The Process State</h2>
+<p>The state field in the process descriptor describes the current condition of the process. There are five different states and a process can exist in one of these states.</p>
+<p>TASK_RUNNING: The task is runnable or is currently running or in a queue waiting to run. This is the only possible state for a process executing in user space (although it applies to the processes running in the kernel space too).</p>
+<p>TASK_INTERRUPTIBLE: The process is sleeping and is waiting for some condition to exist. When that condition is reached, the process is set to TASK_RUNNING.</p>
+<p>TASK_UNINTERRUPTIBLE: This is similar to TASK_INTERRUPTIBLE but cannot be waked with an external signal or any condition reaching a state. This is used when the process is required to wait without interruption.</p>
+<p>__TASK_TRACED: The process is being traced by another process, such as a debugger, via ptrace.</p>
+<p>__TASK_STOPPED: The process has been stopped or the task is not running or it’s not eligible to run. This occurs if the task receives the SIGSTOP, SIGTSTP, SIGTTIN, or SIGTTOU signal or any signal while it’s being debugged.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Linux Processes is a huge topic and cannot be conveyed in a single post. Although, these are a few things that Linux Operators should know to appreciate the beauty of process management in Linux. I will be incorporating a lot of topics in the future about this topic. Till then, more exploration can be done on the internet. I made this post to scratch the surface of Linux Kernel and will keep digging deep.</p>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>

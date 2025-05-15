@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Prior Statements: This is a concise guide on the Linux Shell Scripting while consolidating all the facts about the Linux Shell for quick developer’s reference while using Linux. I am referencing the Bash (Bourne-Again Shell) which is the default shell for Linux-based systems. I will also be providing references and external links to dive into depth and not fill the article with too much explanation about a single topic which is not universally required by all the readers. Bash Scripting is a vast topic and cannot be covered in a single article. I will be providing the very basics here and providing references to external links to learn more.">  
+
+  <title>
+    
+      Linux Shell Scripting — A Suckless and Concise Guide to the Command-line of Linux
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-01-19 00:00:00 &#43;0000 UTC">
+                            2024-01-19
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Linux Shell Scripting — A Suckless and Concise Guide to the Command-line of Linux</h1>
+
+    
+
+    <p><em>Prior Statements: This is a concise guide on the Linux Shell Scripting while consolidating all the facts about the Linux Shell for quick developer’s reference while using Linux. I am referencing the Bash (Bourne-Again Shell) which is the default shell for Linux-based systems. I will also be providing references and external links to dive into depth and not fill the article with too much explanation about a single topic which is not universally required by all the readers. Bash Scripting is a vast topic and cannot be covered in a single article. I will be providing the very basics here and providing references to external links to learn more.</em></p>
+<h2 id="overview-of-the-shell-in-operating-systems">Overview of the Shell in Operating Systems</h2>
+<p>The shell is a program that acts as a buffer between the user and the operating system. It is a command interpreter and acts invisibly. The three main uses for the shell are:</p>
+<ol>
+<li>Interactive use of the system</li>
+<li>Customizing the Linux session by defining variables and startup files</li>
+<li>Programming, by writing and executing shell scripts</li>
+</ol>
+<p><em>“Computers are incredibly fast, accurate, and stupid. Human beings are incredibly slow, inaccurate, and brilliant. Together they are powerful beyond imagination.”- Albert Einstein</em></p>
+<h2 id="historical-overview-of-the-linux-shells">Historical Overview of the Linux Shells</h2>
+<p><a href="https://en.wikipedia.org/wiki/Bourne_shell">Bourne Shell</a> was the standard shell used for writing shell scripts. Bourne Shell is still found in the /bin/sh on the Linux Systems (although they are now <a href="https://en.wikipedia.org/wiki/Symbolic_link#:~:text=A%20symbolic%20link%20contains%20a,exists%20independently%20of%20its%20target.">symbolic links</a> to the Bash). The <a href="https://en.wikipedia.org/wiki/C_shell">Berkeley C shell</a> (csh and later tcsh) offered better features for interactive use, such as command history and job control. For a long time, the standard practice was to use the Bourne-Shell for programming and the C-shell for daily use. David Korn at <a href="https://en.wikipedia.org/wiki/Bell_Labs">Bell Labs</a> enhanced the Bourne shell by adding csh-like features and his shell was known as the <a href="https://en.wikipedia.org/wiki/KornShell">Korn shell</a> (ksh).</p>
+<p>The Free Software Foundation developed a clone of the Bourne Shell and developed the Bourne-Again Shell (Bash). Bash has become a <a href="https://en.wikipedia.org/wiki/KornShell">POSIX-complaint</a> version of the shell, incorporating many popular features from other shells like csh, tcsh and ksh. Bash is now the primary shell for Linux.</p>
+<p>Another popular shell is the Z Shell (zsh) which is similar to the ksh but with many extensions. zsh differs from the bash in two ways: it is based on ksh and does not attempt to be POSIX-compliant.</p>
+<p><em>To get a grip on the Linux command line, it is essential to understand basic Linux Commands. Canonical (the creator of the Ubuntu Linux Operating System) has provided a guide for absolute beginners to <a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">learning the basics of the command line</a>. The Linux command line for beginners. Experience with operating the Linux command line is also essential.</em></p>
+<h2 id="the-prefix-and-executing-shell-script">The Prefix and Executing Shell Script</h2>
+<p>The shebang for shell scripts is <code>#!/bin/bash</code>. This tells the system that the executing file is a bash script and it needs the bash interpreter to work. Before executing a shell script, it’s essential to mark it as executable and provide the necessary permissions by using the command: <code>chmod +x &lt;filename&gt;</code>. To execute the script: <code>./&lt;filename&gt;</code>.</p>
+<h2 id="read-store-print-and-wait-">Read, Store, Print and Wait ….</h2>
+<p>Declaring a variable: <code>name=&quot;maverick&quot;</code></p>
+<p>Reading User Input: <code>read name</code></p>
+<p>Printing content and variables: <code>echo &quot;hello $name&quot;</code> ($ symbol returns the value of the variable)</p>
+<p>Delay for some time: <code>sleep &lt;no_of_seconds&gt;</code></p>
+<h2 id="arrays-in-bash-scripts">Arrays in Bash Scripts</h2>
+<p>Arrays can be declared in the following way:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>declare -a languages<span style="color:#f92672">=(</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>rust
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>golang
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>2<span style="color:#f92672">]=</span>python
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>3<span style="color:#f92672">]=</span>c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>languages[@]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h2 id="running-system-commands-in-the-script">Running System Commands in the Script</h2>
+<p><code>name=$(uname)</code>: This will execute the <code>uname</code> command and store it’s output in the name variable. (print the output with <code>echo &quot;$name&quot;</code>)</p>
+<h2 id="predefined-variables-in-linux-shells">Predefined Variables in Linux Shells</h2>
+<p>eg. RANDOM</p>
+<p>$RANDOM will return any random number between 0–32767</p>
+<p>The outputs of the commands given below are just examples:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt;&gt; echo $RANDOM
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">30011</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo $PWD 
+</span></span><span style="display:flex;"><span>/root
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo $SHELL 
+</span></span><span style="display:flex;"><span>/bin/bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo $USER 
+</span></span><span style="display:flex;"><span>root
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo $HOSTNAME 
+</span></span><span style="display:flex;"><span>localhost
+</span></span></code></pre></div><p><em>Note: The double quotes in the bash script support a lot of symbols that can be used for various purposes. On the other hand, single quotes are strict and consider everything inside them to be string.</em></p>
+<h2 id="arithmetic-operations-in-bash">Arithmetic Operations in bash</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt;&gt; echo <span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">))</span>       <span style="color:#75715e"># Addition </span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo <span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">))</span>       <span style="color:#75715e"># Division</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Note: Bash does not return the data in float. 2/3 = 0.666666.....</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo <span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">))</span>      <span style="color:#75715e"># / is for division</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&gt;&gt; echo <span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">))</span>      <span style="color:#75715e"># &amp; is for remainder</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>Example Snippet of a Bash Program</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;What is your name?&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>read name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;How old are you?&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>read age
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Hello </span>$name<span style="color:#e6db74">, you are </span>$age<span style="color:#e6db74"> years old.&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lucky_number<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span><span style="color:#f92672">(</span> $RANDOM <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">)</span> <span style="color:#f92672">+</span> $age <span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">, your lucky number is </span>$lucky_number<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h2 id="conditional-statements">Conditional Statements</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>read number 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;number is 10&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;number is 20&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;The number was not guessed: </span>$number<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>The following was a quick reference to if and else statements and all you need to know to understand them. They can be used for making decisions and adjusting the control flow of the scripts. They are highly useful in Linux Automation when handling errors and edge cases.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">case</span> $number in                 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;It&#39;s 1&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;              <span style="color:#75715e"># This means go ahead and check next case</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;It&#39;s 2&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span>        3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;It&#39;s 3&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><p>Case statements can be used to consolidate the if-else statements and create very specific cases for the control flow of the script to continue.</p>
+<p>Comprehensive Example for Control Flow and Conditionals in Bash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Yes, I am a Hacker and this script is an example hacker manual</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;This is a tool manual. Enter the tool number to get information about it.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1. metasploit
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">2. aircrack-ng
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">3. hydra&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>read number
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Are you a experienced hacker? (y/n)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>read answer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> $answer in                 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        y<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;This is a very basic manual for you then.... &#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        n<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;This is useful for you then!&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> $number in
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;You have selected the metasploit option&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;You have selected the aircrack-ng option&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span>        3<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>                echo <span style="color:#e6db74">&#34;You have selected the hydra option&#34;</span>
+</span></span><span style="display:flex;"><span>                ;;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;Do you want to know about msfconsole or msfvenom?
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 1. msfconsole
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 2. msfvenom&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> read number
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;msfconsole is a interactive environment framework for exploitation of known vulnerabilities as well as exploit development&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;2&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;msfvenom is a payload generater&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;2&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;Aircrack-ng is Wi-Fi penetration framework&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> <span style="color:#f92672">[[</span> $number <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;3&#34;</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;hydra is a fast login bruteforcer&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Thank you for using this manual&#34;</span>
+</span></span></code></pre></div><h2 id="loops-in-bash-script--while-until-and-for-loops">Loops in Bash Script — While, Until and for loops</h2>
+<p><strong>While Loop:</strong> A while loop continues to loop over a snippet of code until the conditions provided are true. As soon as it gets false, the while loop is escaped and further script is executed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>x<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Number of clicks to end&#34;</span>
+</span></span><span style="display:flex;"><span>read target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The condition will be provided to the while loop</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">[[</span> $x -le $target <span style="color:#f92672">]]</span>           <span style="color:#75715e"># -le means less than or equal to</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> read -p <span style="color:#e6db74">&#34;Click </span>$x<span style="color:#e6db74">: Press enter to continue&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">((</span> x++ <span style="color:#f92672">))</span>                           <span style="color:#75715e"># Post incremental operator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Target completed&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> true          
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;This goes forever!&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p><strong>Until Loop:</strong> Until loops continue to run until some condition is true. The loop initiates when the given condition is false and executes the given snippet of code until the provided conditions are true.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">until</span> <span style="color:#f92672">[[</span> $password <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;correct_password&#34;</span> <span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;Enter the password: &#34;</span>
+</span></span><span style="display:flex;"><span> read password
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Access Granted!&#34;</span>
+</span></span></code></pre></div><p>Until loops are kind of opposite to while loops. They run until the provided condition is satisfied.</p>
+<p>While loop runs while the given condition is true. Until loop runs until the given condition is true.</p>
+<p><strong>For Loop:</strong> For loops don’t wait for a certain condition to be true and execute the given snippet of code until the specified range of items are selected and covered.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> cups in <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">9</span> 10;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;Hey, you&#39;ve had </span>$cups<span style="color:#e6db74"> of coffee today. &#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><pre tabindex="0"><code>for cups in {1..10};        # range is provided for simplicity
+do
+ echo &#34;Hey, you&#39;ve had $cups of coffee today. &#34;
+
+done
+</code></pre><p>For loop can be useful for various purposes like traversing over files in the directory or even going through lines in a file, etc.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>declare -a languages<span style="color:#f92672">=(</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0<span style="color:#f92672">]=</span>rust
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>1<span style="color:#f92672">]=</span>golang
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>2<span style="color:#f92672">]=</span>python
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>3<span style="color:#f92672">]=</span>c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Itterating over arrays with for loop</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#e6db74">${</span>languages[@]<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;</span>$i<span style="color:#e6db74"> \n&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>Some example scripts for reference</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Script to check if the given website is up</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> x in google.com bing.com facebook.com;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> ping -q -c <span style="color:#ae81ff">2</span> -W <span style="color:#ae81ff">1</span> $x &gt; /dev/null; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;</span>$x<span style="color:#e6db74"> is up&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;</span>$x<span style="color:#e6db74"> is down&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Checking the weather in the cities provided in the cities.txt file</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> x in <span style="color:#66d9ef">$(</span>cat cities.txt<span style="color:#66d9ef">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span> weather<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s http://wttr.in/$x?format<span style="color:#f92672">=</span>3<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;The weather for </span>$weather<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Script to create a Wi-Fi prompt for suckless dmenu (my own Arch linux script)</span>
+</span></span><span style="display:flex;"><span>interfaces<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>nmcli device | awk <span style="color:#e6db74">&#39;$2==&#34;wifi&#34; {print $1}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected_interface<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span>$interfaces<span style="color:#e6db74">&#34;</span> | dmenu -p <span style="color:#e6db74">&#34;Select a network interface:&#34;</span> -l 10<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wifi_list<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>nmcli device wifi list ifname <span style="color:#e6db74">&#34;</span>$selected_interface<span style="color:#e6db74">&#34;</span> | awk <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected_network<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span>$wifi_list<span style="color:#e6db74">&#34;</span> | dmenu -p <span style="color:#e6db74">&#34;Select a Wi-Fi network:&#34;</span> -l 10<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>password<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;&#34;</span> | dmenu -p <span style="color:#e6db74">&#34;Enter the Wi-Fi password:&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nmcli device wifi connect <span style="color:#e6db74">&#34;</span>$selected_network<span style="color:#e6db74">&#34;</span> password <span style="color:#e6db74">&#34;</span>$password<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Connecting to </span>$selected_network<span style="color:#e6db74">...&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Converts an image or a directory of images to .webp format</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> file in <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>/*; <span style="color:#66d9ef">do</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> file --mime-type <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> | grep -q <span style="color:#e6db74">&#34;image&#34;</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>      cwebp <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> -o <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>file%.*<span style="color:#e6db74">}</span><span style="color:#e6db74">.webp&#34;</span>
+</span></span><span style="display:flex;"><span>      echo <span style="color:#e6db74">&#34;[+] Converted </span>$file<span style="color:#e6db74"> to </span><span style="color:#e6db74">${</span>file%.*<span style="color:#e6db74">}</span><span style="color:#e6db74">.webp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>      echo <span style="color:#e6db74">&#34;[-] Skipping file: </span>$file<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  file<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>  cwebp <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> -o <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>file%.*<span style="color:#e6db74">}</span><span style="color:#e6db74">.webp&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Conversion Completed&#34;</span>
+</span></span></code></pre></div><p>There are a lot of references to go with for learning and mastering Linux Shell scripts.</p>
+<p>Books I recommend:</p>
+<p>Wicked Cool Shell Scripts: 101 Scripts for Linux, OS X, and Unix Systems — Dave Taylor, Brandon Perry</p>
+<ul>
+<li>Linux in a Nutshell — Ellen Siever, Stephen Figgins, Robert Love and Arnold Robbins</li>
+<li>Linux Shell Scripts have been very useful for my overall computer usage. I have been using Linux as my primary operating system and I am safe to say that my whole computer works on the backbone of these shell scripts. Bash Scripting have a lot of usage in automating tasks and I believe them to be holding the power of automating IT systems in a versatile and simple fashion.</li>
+</ul>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

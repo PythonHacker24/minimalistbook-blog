@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Introduction and Context
+I was going through the book “Linux Kernel Development” by Robert Love, an absolute guide to getting started with Linux Kernel Development and a highly recommended book for understanding the core of the Linux Kernel. Linux Kernel has been one of the most important software ever written and is even considered one of the biggest projects ever undertaken by a single person. The idea of the Linux Kernel was initiated by Linus Torvalds, a student from the University of Helsinki and is maintained by him to date (while writing this article). The roots of Linux however originate from the Unix Operating System and adopt the very necessary principle on which the Unix Operating System was based. To understand the development of the Linux Kernel, a pinch of history about Unix is necessary.">  
+
+  <title>
+    
+      The Elegance of the Linux Kernel — A Concise History of Unix and the Creation of the Linux Kernel
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-01-23 00:00:00 &#43;0000 UTC">
+                            2024-01-23
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>The Elegance of the Linux Kernel — A Concise History of Unix and the Creation of the Linux Kernel</h1>
+
+    
+
+    <h2 id="introduction-and-context">Introduction and Context</h2>
+<p>I was going through the book “Linux Kernel Development” by Robert Love, an absolute guide to getting started with Linux Kernel Development and a highly recommended book for understanding the core of the Linux Kernel. Linux Kernel has been one of the most important software ever written and is even considered one of the biggest projects ever undertaken by a single person. The idea of the Linux Kernel was initiated by Linus Torvalds, a student from the University of Helsinki and is maintained by him to date (while writing this article). The roots of Linux however originate from the Unix Operating System and adopt the very necessary principle on which the Unix Operating System was based. To understand the development of the Linux Kernel, a pinch of history about Unix is necessary.</p>
+<h2 id="concise-history-of-the-unix-operating-system">Concise History of the Unix Operating System</h2>
+<p><a href="https://en.wikipedia.org/wiki/Unix">Unix Operating System</a> was the brainchild of <strong>Ken Thompson</strong> and <strong>Dennis Ritchie</strong>. The birth of Unix was made from the failed Operating System in which the Bell Labs was involved, the Multics (a multi-user OS). In the summer of 1969, Bell Labs Programmers after facing the requirements of an Operating System, developed a file system and ultimately, Unix was born. Furthermore, Thompson made improvements on top of it and finally, in 1973, Unix was rewritten to C Language. The first Unix system used beyond the Bells Labs was the Unix System, 6th Edition.</p>
+<p>Due to the simplicity of Unix&rsquo;s design, many companies like AT&amp;T took an interest in the development of more variants of the Unix. One of the prominent organisations was the University of California, Berkeley and to this day, the Berkeley Software Distribution (BSD) Operating Systems persists (variants like OpenBSD, FreeBSD, etc. are currently available to use in full-fledged environments).</p>
+<p>From the 1980s to 1990s, variants of Unix were commercialised for high-end servers and mostly were by AT&amp;T Labs and Berkeley Distributions. At the time, these high-end servers were IBM AIX, Hewlett Packard HP-UX, Sun Solaris, SGI’s IRIX, etc. This was due to the core principles of Unix that made it so extensible and versatile for use.</p>
+<h2 id="major-characteristics-of-the-unix-operating-system">Major Characteristics of the Unix Operating System</h2>
+<p>There were a handful of characteristics that made Unix responsible for its strength of Unix. Some of them are listed here:</p>
+<ol>
+<li><strong>Unix is Simple:</strong> Unix was very simple by design compared to other operating systems at the time. Other operating systems used to have thousands of system calls, whereas the Unix Operating System had just a few hundreds of system calls. This made it easy to work with and made development less complicated.</li>
+<li><strong>Everything is a File in Unix:</strong> The fact that everything is a file makes it easy for the Operating System to consolidate the manipulation of data and devices with just a handful of system calls (which were the absolute core of Unix): open(), read(), write(), lseek() and close().</li>
+<li><strong>Use of C Language:</strong> The Unix system and the related system utilities were written in the C Language. This gave the Unix OS an edge over portability and made it more accessible to developers.</li>
+<li><strong>Fast Process Creation Time:</strong> Unix implements robust Interprocess Communication (IPC), which when coupled with the Fast Process Creation Time would enable the creation of simple programs which would do one thing and do it well.
+The success factor of Unix was mainly due to the simplicity and elegance of the design.</li>
+</ol>
+<h2 id="the-initiating-spark-of-the-linux-kernel">The Initiating Spark of the Linux Kernel</h2>
+<p>The Linux Kernel owes a lot to the design principles of Unix and is an absolute upgrade to provide more robust functionalities that are lacking in Unix. It’s worth mentioning that Linux is not based on Unix, but is a Unix-like kernel. The idea of the development of Linux was due to the restrictions that commercial Unix-based Operating System. These Operating Systems were for commercial use and encapsulated fewer modifications allowed for distribution. This made Linus Torvalds initiate the development of Linux Kernel. Over his academic years, he had built an immature but full-fledged Unix. In late 1991, Linus announced on the internet about the development of Linux.</p>
+<p>Linux is not a derivate of Unix, although implements a lot of features from the Unix Operating System like it uses the UNIX API (as defined by POSIX and the Single Unix Specification). Nowhere does Linux use the Source Code of Unix in it’s any part.</p>
+<h2 id="philosophy-of-the-linux-kernel">Philosophy of the Linux Kernel</h2>
+<p><a href="https://en.wikipedia.org/wiki/Linux">Linux</a> is not commercialised and is free to use and distribute since Linux was built to overcome the barriers of commercial and less-distributable property. Linux is licensed with the GNU General Public License (GPL) which allows the redistribution of Linux with any set of modifications and customisation to the source code or addition of more functionalities but on a term that they must be also free and customisable. The same freedom that the modifier and distributor had must be passed to the next.</p>
+<p>Linux today has a huge community and anyone can contribute to and improve the Linux Kernel. The history of these Operating Systems went from the need for an Operating System in Bell Labs to the need by an academic at the University of Helsinki to the date when Linux is present everywhere in our lives. Linux expanded to huge servers and infrastructure and even converged to the use in embedded systems as well. The simplicity and elegance of the design of Linux can be estimated by the fact that 96.3% of the servers (while writing this article) use Linux as their Operating System.</p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Linux Kernel is an Open-Source Software and the user is free to modify and customise it as per the requirements. The modification of the Kernel requires a deep understanding of the working of the Kernel, although patches are available to make the Kernel optimised for specific hardware. Linux Kernel Source Code has various options to configure the drivers, modules, preferences on hardware options, etc. This part can be studied by the user and is pretty much easy to work with. The confusing part, however, is building the Kernel.">  
+
+  <title>
+    
+      Configuring and Building the Linux Kernel — Absolute Guide to Compiling Your Kernel
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-01-25 00:00:00 &#43;0000 UTC">
+            2024-01-25
+        </time>
+    </p>
+
+    <h1>Configuring and Building the Linux Kernel — Absolute Guide to Compiling Your Kernel</h1>
+
+    
+
+    <p>Linux Kernel is an Open-Source Software and the user is free to modify and customise it as per the requirements. The modification of the Kernel requires a deep understanding of the working of the Kernel, although patches are available to make the Kernel optimised for specific hardware. Linux Kernel Source Code has various options to configure the drivers, modules, preferences on hardware options, etc. This part can be studied by the user and is pretty much easy to work with. The confusing part, however, is building the Kernel.</p>
+<p>Building the Kernel includes creating user-specific configurations, and modifications as well as building in a way that is most efficient and error-free. It’s comforting for the fact that you can get the default configuration and build the Kernel over it in the simplest manner. But this approach lacks the freedom that you have over the clone of the code you own. For the most efficient build of the Kernel, you need to understand all the nuts and bolds of how to build the finest version of your Kernel. (if you are particularly a computer nerd, then you will be proud of the fact that you have your version of the Kernel).</p>
+<p>The idea of building the Kernel is to create the <code>.config</code> file and compile it to the reference of this file. This file instructs the compilation process to build the Kernel as per the configuration in this file. There are various methods to create this file, ranging from the most configurable to the fastest way to get it done.</p>
+<h2 id="configuring-from-scratch">Configuring from Scratch</h2>
+<p>The most basic method for configuring the Kernel is to use the make config method. This way, the Kernel will prompt you to set up every single configuration as per your wish and you need to fill in all the prompts to create the configuration file which you would need to build the kernel.</p>
+<ol>
+<li>y: Build directly into the Kernel</li>
+<li>m: Leave entirely out of the Kernel</li>
+<li>m: Build as a module, to be loaded if needed</li>
+<li>?: Print a brief descriptive message and repeat the prompt</li>
+</ol>
+<p>The fact that the Kernel has over 2000 options makes this process tedious. For users who need the most basic configuration and also have it quite a bit stable can use the default configuration file.</p>
+<h2 id="default-configuration-options">Default Configuration Options</h2>
+<p>Linux Kernel also ships with a default configuration which is loosely based on the defaults that the Kernel Maintainer has. For the i386 architecture, this configuration matches close to what Linus Torvalds uses on his main development machine. This is a quick way to create a config file and get the Linux Kernel Build in the least time possible (and the fact that maintainers use them makes the config relatively stable for most of the users).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd linux-&lt;kernel_version&gt;
+</span></span><span style="display:flex;"><span>make defconfig
+</span></span></code></pre></div><p>Now <strong>this is a recommended build option</strong> even if you want to create your custom Kernel. This method creates a base configuration file that you can modify to add or remove features as per the requirements. This way, you don’t need to worry about each option and have the freedom to skip any section that you want to be the default. So consider it to be the first step of Kernel customisation.</p>
+<h2 id="modifying-the-kernel-configuration">Modifying the Kernel Configuration</h2>
+<p>The Kernel Configuration can be done in various ways, all resulting in the creation of the config file for building the Kernel itself. There are three ways of configuring the Kernel:</p>
+<ol>
+<li>A <strong>Terminal-based</strong> one called <strong>menuconfig</strong>: <code>make menuconfig</code></li>
+<li>A <strong>GTK+ based</strong> graphical one called <strong>gconfig</strong>: <code>make gconfig</code></li>
+<li>A <strong>QT-based</strong> graphical one called <strong>xconfig</strong>: <code>make xconfig</code></li>
+</ol>
+<p>All of them do the same job and it’s the user’s preference to choose one method that is the most comfortable and create the config file. All the options would create a visual way of modifying the options which is comfortable and sorted logically. This way, every option can be found easily and modified as per the requirements.</p>
+<p>Building the Kernel
+Now building the Kernel in the most basic way is to just enter a one-word command: <strong>make</strong></p>
+<p>This will build the whole Linux Kernel with the provided configurations This will create the Kernel Image once the build is completed. Note that this image needs to be configured with the Linux Distro you are using before trying to boot from it.</p>
+<h2 id="advanced-building-options-for-the-kernel">Advanced Building Options for the Kernel</h2>
+<p>The Kernel Source Code is a big file and needs resources to be compiled. Using the full potential of your system to build the Kernel will boost up the compiling process. To use all the cores of your system, you can provide the -j tag with the make command.</p>
+<p><code>make -j&lt;number_of_cpu_cores&gt;</code></p>
+<p>For example, if you have 6 cores CPU, then use the command <code>make -j6</code> to use all the 6 cores to compile the Kernel.</p>
+<p>To find out the number of CPU cores in Linux, use the command: <code>nproc</code>.</p>
+<p>So overall, to make use of all CPU cores, you can use the command:</p>
+<p><code>make -j$(nproc)</code></p>
+<h2 id="building-only-a-portion-of-the-kernel">Building only a Portion of the Kernel</h2>
+<p>If you only want to build a portion of the Kernel, for example for drivers/usb/serial, you can use the command:</p>
+<p><code>make drivers/usb/serial</code> (but this will not build the final module images)</p>
+<p>To build the final module images, use the command:</p>
+<p><code>make M=drivers/usb/serial</code></p>
+<p>To link the module image to the built Kernel, you have to use the <code>make</code> command again to add it to the final Kernel Image.</p>
+<h2 id="output-to-another-folder">Output to Another Folder</h2>
+<p>To output the contents of compiled files to another location, use the command: <code>make O=&lt;location_of_output&gt;</code>. This can be useful when installation is done via CD/ROM and is read-only for any purposes where the compiled image needs to be placed in some other location.</p>
+<h2 id="building-for-different-architectures">Building for Different Architectures</h2>
+<p>Linux Kernel allows you to compile the image of other architectures. This is useful for embedded devices as well as to use powerful computers to compile Kernels for small devices. To do this, use the command:</p>
+<p><code>make ARCH=x86_64 defconfig</code> This will create configurations for an x86–64 architecture.</p>
+<p>You can use CROSS_COMPILE options to use other architectures toolchain. For example, the ARM toolchain located in /usr/local/bin:</p>
+<p><code>make ARCH=arm CROSS_COMPILE=/usr/local/bin/arm-linux-</code></p>
+<p>To use programs like distcc or ccache (to change the build system used by the compiler), which helps to reduce the compile time significantly, use the CC option.</p>
+<p><code>make CC=&quot;ccache gcc&quot;</code></p>
+<p>To use distcc and ccache together:</p>
+<p><code>make CC=&quot;ccache distcc&quot;</code></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Building your own Linux Kernel gives you the freedom to configure the system to the roots. Optimisation of Kernel can result in improved performance as well as help you understand the depths of computers. For learning more in-depth, I can recommend a few books:</p>
+<p>Linux Kernel in a Nutshell — Greg Kroah-Hartman
+Linux Kernel Development — Robert Love</p>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>
