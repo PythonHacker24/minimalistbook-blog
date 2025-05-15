@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://minimalistbook.com/posts.bak/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts.bak/</loc>
     <lastmod>2024-08-18T13:34:54+02:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/</loc>
     <lastmod>2024-06-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/how_to_learn_a_new_programming_language/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/how_to_learn_a_new_programming_language/</loc>
     <lastmod>2024-06-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/why_more_is_not_always_good/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/why_more_is_not_always_good/</loc>
     <lastmod>2024-06-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/why_i_shifted_from_arch_to_debian/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/why_i_shifted_from_arch_to_debian/</loc>
     <lastmod>2024-05-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/tmux_is_the_ultimate_choice_for_power_users/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/tmux_is_the_ultimate_choice_for_power_users/</loc>
     <lastmod>2024-05-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/concept_of_rss_feed/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/concept_of_rss_feed/</loc>
     <lastmod>2024-05-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/breaking_rsa_encryption_on_hardware_devices_with_side_channel_power_analysis/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/breaking_rsa_encryption_on_hardware_devices_with_side_channel_power_analysis/</loc>
     <lastmod>2024-04-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/serious_reconnaissance_with_unmaned_aerial_vechiles/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/serious_reconnaissance_with_unmaned_aerial_vechiles/</loc>
     <lastmod>2024-04-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/fundamentals_of_hardware_hacking/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/fundamentals_of_hardware_hacking/</loc>
     <lastmod>2024-03-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/setting_up_remote_git_server/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/setting_up_remote_git_server/</loc>
     <lastmod>2024-02-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/nature_of_linux_kernel_development/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/nature_of_linux_kernel_development/</loc>
     <lastmod>2024-02-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/linux_process_scheduling/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/linux_process_scheduling/</loc>
     <lastmod>2024-02-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/linux_processes/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/linux_processes/</loc>
     <lastmod>2024-01-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/nginx_for_deploying_nextjs_application_on_aws/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/nginx_for_deploying_nextjs_application_on_aws/</loc>
     <lastmod>2024-01-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/configuring_and_building_the_linux_kernel/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/configuring_and_building_the_linux_kernel/</loc>
     <lastmod>2024-01-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/elegance_of_the_linux_kernel/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/elegance_of_the_linux_kernel/</loc>
     <lastmod>2024-01-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/linux_shell_scripting/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/linux_shell_scripting/</loc>
     <lastmod>2024-01-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/suckless_utilities_for_arch_linux/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/suckless_utilities_for_arch_linux/</loc>
     <lastmod>2024-01-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/installing_pacman_in_arch_linux/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/installing_pacman_in_arch_linux/</loc>
     <lastmod>2024-01-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/boot_process_of_computers/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/boot_process_of_computers/</loc>
     <lastmod>2024-01-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/networking_fundamentals_for_linux_administrators/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/networking_fundamentals_for_linux_administrators/</loc>
     <lastmod>2024-01-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/operating_systems_and_low_level_access_to_the_hardware/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/operating_systems_and_low_level_access_to_the_hardware/</loc>
     <lastmod>2024-01-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/arch_linux_custom_builds/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/arch_linux_custom_builds/</loc>
     <lastmod>2024-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/bypass_the_linux_login_to_access_the_files/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/posts/bypass_the_linux_login_to_access_the_files/</loc>
     <lastmod>2024-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/</loc>
     <lastmod>2022-08-25T21:30:04+08:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/categories/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/categories/</loc>
   </url><url>
-    <loc>https://minimalistbook.com/tags/</loc>
+    <loc>http://localhost:1313/minimalistbook-blog/tags/</loc>
   </url>
 </urlset>
