@@ -1,4 +1,4 @@
-baseURL = 'https://pythonhacker24.github.io/minimalistbook-blog/'
+baseURL = 'https://minimalistbook.com/'
 languageCode = 'en-us'
 title = '⭐️ The Minimalist Book'
 theme = 'nostyleplease'
