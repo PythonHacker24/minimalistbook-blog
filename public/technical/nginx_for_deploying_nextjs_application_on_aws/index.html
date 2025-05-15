@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="I was looking for an article like this a few days ago, which I didn’t find at that time, so I did the deployment on my own and came up with this article to prevent other developers from saving those efforts and focusing on development. I am not explaining every single step and have provided links for references.
+I prefer manual deployment of applications over automated (and even serverless) methods. Although they are convenient and require less effort by the developers, they are bound to the providers and offer less control over the underlying system. It’s an absolute necessity that the systems work as the developer (or a team in the organisation) wants it to, and not more than that. Often, more in this situation means more pricing which is considered for a long period can sum up to a huge amount, and even that functionality may not be that good enough or even required.">  
+
+  <title>
+    
+      NGINX for Deploying Next.js Application on AWS EC2 with AWS ELB — Control and Stability of Deployments
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-01-29 00:00:00 &#43;0000 UTC">
+            2024-01-29
+        </time>
+    </p>
+
+    <h1>NGINX for Deploying Next.js Application on AWS EC2 with AWS ELB — Control and Stability of Deployments</h1>
+
+    
+
+    <p><em>I was looking for an article like this a few days ago, which I didn’t find at that time, so I did the deployment on my own and came up with this article to prevent other developers from saving those efforts and focusing on development. I am not explaining every single step and have provided links for references.</em></p>
+<p>I prefer manual deployment of applications over automated (and even serverless) methods. Although they are convenient and require less effort by the developers, they are bound to the providers and offer less control over the underlying system. It’s an absolute necessity that the systems work as the developer (or a team in the organisation) wants it to, and not more than that. Often, more in this situation means more pricing which is considered for a long period can sum up to a huge amount, and even that functionality may not be that good enough or even required.</p>
+<p>A simple deployment that ensures the control of the developing team and offers no more than the requirements is an efficient way to deploy applications. Consolidating these advantages, simplicity in design opens more doors to innovation and developing unique solutions to occurring problems. I believe that innovation requires freedom and control over a certain thing that is meant to be improved. Automated tools which act like an invisible layer of internal mechanisms for deployment often don’t allow the deployment team to work on their terms and end up causing a steep learning curve and fewer own-built features.</p>
+<p>Next Js is widely used for developing web applications due to its vast ecosystem and convenience. Although there are a lot of ways to deploy these applications to a certain extent, having manually operated servers provides a degree of freedom and access to the resources. AWS (Amazon Web Services) provides lots of ways of deployment (like AWS Amplify but they are automated, or Virtual Machines for Manual Control). AWS EC2 (Elastic Compute Cloud) provides manual control over the servers with a whole degree of freedom to manage and extend the usage. Coupled with EC2, AWS ELB (Elastic Load Balancer) provides a convenient way to balance multiple EC2 Instances and prevent failures due to large amounts of requests, by distributing loads over lots of machines. NGINX provides proxy handling for configuring the right ports in the server.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*DkzBa69AD0Y4BD-uMB2N3g.png" alt="diagram"></p>
+<p>The combination of Next Js, NGINX, AWS EC2 and AWS ELB provides a system with high throughput, control and upgradability to the organisation, ensuring efficient pricing and usage of the system. Configuring them can be tricky in some cases, but here is a suckless guide to walk through the process.</p>
+<h2 id="get-an-aws-ec2-instance-running">Get an AWS EC2 Instance Running</h2>
+<p>On the AWS portal, get the EC2 instance and deploy it. For Next Js, my personal preference goes with using Linux, especially Debian (although Ubuntu Servers are good too and are based on Debian). Choose enough capacity EC2 Instance and connect to it via SSH.</p>
+<p>Refer to AWS EC2 Docs: <a href="https://docs.aws.amazon.com/ec2/">https://docs.aws.amazon.com/ec2/</a></p>
+<h2 id="build-the-next-js-application">Build the Next Js Application</h2>
+<p>Once the application is ready for deployment, start building the project. It’s not a big deal for deployment engineers whether to use npm or yarn, but use anything that works out best for you. As this is a production environment, you would need to build it and then run it on the EC2 Instance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install 
+</span></span><span style="display:flex;"><span>npm run build 
+</span></span><span style="display:flex;"><span>npm install -g pm2
+</span></span><span style="display:flex;"><span>pm2 start npm --name <span style="color:#e6db74">&#34;your-application-name&#34;</span> -- start
+</span></span><span style="display:flex;"><span>pm2 save
+</span></span><span style="display:flex;"><span>pm2 startup
+</span></span></code></pre></div><p>This will fire up pm2 (process manager for node.js) which will run on the server in the background. The startup command would make sure that the Next Js application gets up when the server reboots. This ensures uptime in cases of the server rebooting (although the load balancer will manage it but it’s good if the server revokes itself).</p>
+<p>Now the application must be running on port 3000 (default port). To route the traffic to port 80 (HTTP port), you need to proxy requests using NGINX. NGINX routes the traffic from one port to another and vice-versa.</p>
+<h2 id="setting-up-nginx-for-proxy">Setting up NGINX for Proxy</h2>
+<p>NGINX is easy to configure and requires a single configuration file to get the work done. First, install NGINX into the server. For Debian-based servers:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install nginx
+</span></span></code></pre></div><p>Create a config file <code>your-application-name.conf</code> in the <code>/etc/nginx/conf.d/</code> directory. Here is a basic and minimal config template that you can use, which works just fine:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen 80; <span style="color:#75715e"># Listen on port 80</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    server_name &lt;domain-name or IP address&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        proxy_pass http://127.0.0.1:3000; <span style="color:#75715e"># Proxy traffic to port 3000</span>
+</span></span><span style="display:flex;"><span>        proxy_set_header Host $host;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Yes, you can use IP addresses too in the <strong>server_name</strong> field in case you don’t have a domain name yet. It’s the part where I spend most of my time debugging, it’s a field where you need to add what the user enters in the search bar when accessing the application.</p>
+<p>At last, start NGINX with the following commands (for Debian-based servers):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable nginx
+</span></span><span style="display:flex;"><span>systemctl start nginx
+</span></span></code></pre></div><p>This will start nginx and configure it to start when the system reboots too.</p>
+<h2 id="set-up-elastic-load-balancer">Set Up Elastic Load Balancer</h2>
+<p>Configuring AWS ELB can be done on the AWS console and the docs can be referred for purposes. You just need to route traffic from ELB port 80 to EC2 port 80. The options in the ELB are absolutely easy and can be done with fet Google searches on the way. ELB has options to add more instances in case you have more instances running the application.</p>
+<p>A point to note here is that you can skip the process of using NGINX and set up the ELB to forward traffic to EC2 port 3000 (default port of Next Js).</p>
+<p>Refer to AWS ELB docs: <a href="https://docs.aws.amazon.com/elasticloadbalancing/">https://docs.aws.amazon.com/elasticloadbalancing/</a></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This was a simple guide to setting up a deployment which is scalable, manual and provides a greater degree of control than automated deployment tools. This can be integrated with a lot of external tools like GitHub actions to create a CI/CD Pipeline.</p>
+<p>This guide was something that I needed a few days ago and now it exists.</p>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Today, I completed the whole read of the book “Linux Kernel in a Nutshell” by Greg Kroah-Hartman and I highly recommend that you go through it if you want to understand how to build your custom configuration of Linux Kernel and all you need to know about all the nuts and bolts. It’s always great to have such handbooks around the desk.
+This blog is about why it’s so awesome to look into the operating system you are using with your hardware and why have a grasp on the Low-Level aspects of a computer. I am going to go philosophical in this blog about the reasoning behind why to leave what you are doing and explore under the hood of things around you. When I say computers, it’s not bound to something like a Laptop or Desktop but comprises a whole lot of things that you have lying around. Like your Wireless Access Point (commonly called a wireless router), most probably it’s the case that it is running a whole Linux-based Operating System in it. Owning something might be easy but having an insight into how it functions is something amazing. When you spend a lot of time figuring out all of this, it becomes extremely obvious about how they work rather than the complexity that we predict while accessing these things.">  
+
+  <title>
+    
+      Operating Systems and Low-Level Access to the Hardware — Why should you learn it?
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2024-01-09 00:00:00 &#43;0000 UTC">
+                            2024-01-09
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Operating Systems and Low-Level Access to the Hardware — Why should you learn it?</h1>
+
+    
+
+    <p>Today, I completed the whole read of the book <strong>“Linux Kernel in a Nutshell” by Greg Kroah-Hartman</strong> and I highly recommend that you go through it if you want to understand how to build your custom configuration of Linux Kernel and all you need to know about all the nuts and bolts. It’s always great to have such handbooks around the desk.</p>
+<p>This blog is about why it’s so awesome to look into the operating system you are using with your hardware and why have a grasp on the Low-Level aspects of a computer. I am going to go philosophical in this blog about the reasoning behind why to leave what you are doing and explore under the hood of things around you. When I say computers, it’s not bound to something like a Laptop or Desktop but comprises a whole lot of things that you have lying around. Like your Wireless Access Point (commonly called a wireless router), most probably it’s the case that it is running a whole Linux-based Operating System in it. Owning something might be easy but having an insight into how it functions is something amazing. When you spend a lot of time figuring out all of this, it becomes extremely obvious about how they work rather than the complexity that we predict while accessing these things.</p>
+<p><em>“The world is full of obvious things which nobody by any chance ever observes” — Sherlock Holmes&quot;</em></p>
+<p>My last few blogs have been about why I use Arch Operating System. Today, I am not gonna state much about that fact (I use Arch btw). Recently, I was learning the <strong>Rust Programming Language</strong> which I consider to be one of my favourite languages. Yes, I love <strong>Golang</strong> too and I am learning it now. The control that these languages give you on the low-level side is so awesome that I got to learn about Stack Memory and Heap Memory from the Rust Docs itself. This makes you a better programmer than the traditional one trying to look into the syntax and goes on to use it blindly. The Rust Programming Language is now being used in the Linux Kernel which is awesome in a way. The C Language is from my perspective is what I respect a lot and trying to learn it in as depth as possible. <strong>C Language</strong> is something that gives so much control to the developer that the security falls into the hands of the developer. So I consider Rust as an ideal language for most purposes. More on Rust Language in some other blog, there is a lot to cover about that.</p>
+<p>Now languages like Rust, Golang, C, etc. hand over the control of the hardware to a great extent to the developer. This means that the first layer that they are going to interact with is the Operating System. Modern devices comprise operating systems which makes them easier to develop rather than hardcoding the firmware from scratch (there are a lot of reasons why companies don’t prefer this much. One of them is building the Kernel from scratch which is a huge work to get done). Interacting with the Operating System and building native applications is I believe a huge advantage. Optimising a program for a specific OS works out well and helps avoid a lot of bugs. All of this comes when the developer has a keen knowledge of Operating Systems and Internal Hardware.</p>
+<p>Having a grasp on Operating Systems makes it easy to decode the world of electronics. Like, consider my case. I remember I was trying to hack into my TP-LINK — WR720N by physical access. While I was plugging in the UART ports and trying to learn <strong>Firmware Extraction Techniques</strong>, I learned that it has Linux-based firmware. I use Linux on my Desktop Hardware which uses the same Kernel that the small Wireless Router was using. Isn’t it cool that while I know my operating system in depth, I understand my router as well? Almost the same principles apply to it, like the network management. Operating Systems have networking tools built into them for internet connectivity and networking is the core for Wireless Access Points. This makes the router more understandable while using it, and now you have more control over your devices.</p>
+<p>It’s just the optimisations that are made while developing these devices. A Wireless Access Point has almost I believe no need for Keyboard and Mouse Interaction. So these drivers can be removed, which optimises the storage and results in greater speed. A functional Operating System on a Desktop would need this! it’s hard to work without a Keyboard (and sometimes a mouse but if you use NeoVim like me and CLI with Tmux most of the time, then it should be fine). Now consider that you are building a media server on your <strong>Raspberry Pi</strong> and you have SSH to interact with it. Why would you need a Printer and Scanner Drivers if you don’t use them? If you want an Ethernet connection, why go with Wi-Fi drivers? Make your system lightweight and fast enough.</p>
+<p>These are some things that you would be able to optimise at low levels of your computers. Doesn’t matter if you are a High-Level Language user working on Web Application Development, having a good command of Low-Level can help you optimise your products. Personally, I like to explore the ecosystems of devices and make my Arch Distro faster for development.</p>
+<p>Rust Docs: <a href="https://doc.rust-lang.org/book/title-page.html">https://doc.rust-lang.org/book/title-page.html</a></p>
+<p>Golang Docs: <a href="https://go.dev/doc/">https://go.dev/doc/</a></p>
+<p>Linux Wikipedia: <a href="https://en.wikipedia.org/wiki/Linux">https://en.wikipedia.org/wiki/Linux</a></p>
+<p>Linux Kernel in a Nutshell Book (Author’s Website): <a href="http://www.kroah.com/lkn/">http://www.kroah.com/lkn/</a></p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

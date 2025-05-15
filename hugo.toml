@@ -1,0 +1,4 @@
+baseURL = 'https://minimalistbook.com/'
+languageCode = 'en-us'
+title = '⭐️ The Minimalist Book'
+theme = 'nostyleplease'

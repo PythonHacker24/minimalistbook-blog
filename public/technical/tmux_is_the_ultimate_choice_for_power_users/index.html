@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-us"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="What is Tmux?
+Tmux is a Terminal Multiplexer Application for Linux and MacOS for managing terminal sessions and Windows. It is to be mentioned that Tmux is not a terminal emulator, instead, it’s a terminal application, a binary that allows you to stay productive over your terminal. It doesn’t matter which terminal emulator you are using (although I recommend the Suckless Terminal). The functionality of managing Windows and the session doesn’t happen on the desktop GUI side but on the terminal session, you are working with.">  
+
+  <title>
+    
+      Tmux is the Ultimate Choice for Power Users - An Awesome Terminal Multiplexer for Managing Persistent Sessions
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.900100e9dbee2d56c58fac8bb717037cae7e26a9c36c29d2ff587bdd65f0cbbe510b41d81a3bb234919cdfdc7550d786b2fab70c8fc507772d732fe097106d12.css" integrity="sha512-kAEA6dvuLVbFj6yLtxcDfK5&#43;JqnDbCnS/1h73WXwy75RC0HYGjuyNJGc39x1UNeGsvq3DI/FB3ctcy/glxBtEg==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+<a href="/">..</a>
+
+
+<article>
+    <p class="post-meta">
+        <time datetime="2024-05-27 00:00:00 &#43;0000 UTC">
+            2024-05-27
+        </time>
+    </p>
+
+    <h1>Tmux is the Ultimate Choice for Power Users - An Awesome Terminal Multiplexer for Managing Persistent Sessions</h1>
+
+    
+
+    <h2 id="what-is-tmux">What is Tmux?</h2>
+<p>Tmux is a Terminal Multiplexer Application for Linux and MacOS for managing terminal sessions and Windows. It is to be mentioned that Tmux is not a terminal emulator, instead, it’s a terminal application, a binary that allows you to stay productive over your terminal. It doesn’t matter which terminal emulator you are using (although I recommend the Suckless Terminal). The functionality of managing Windows and the session doesn’t happen on the desktop GUI side but on the terminal session, you are working with.</p>
+<p>Tmux is Free and Open Source Software and its source code is available at its Official GitHub Repository: <a href="https://github.com/tmux/tmux">https://github.com/tmux/tmux</a></p>
+<p>Readers of my articles know how much I love Open Source and Free Software and this one is one of my favourite terminal applications.</p>
+<h2 id="why-do-you-need-tmux">Why do You Need Tmux?</h2>
+<p>One thing about Tmux that I would like to mention is that Tmux is highly productive and you just need some amount of patience to learn it.</p>
+<p>Terminal Emulators are great, they can manage a lot of things like splitting panes and tabs, which Tmux also does by default. For instance, I use the Suckless Terminal with DWM (Dynamic Window Manager) which is a tiling window manager that allows me to have screen layout split into patterns that I prefer depending upon my work and have multiple workspaces mimicking as tabs on my system for the terminal emulators. In the past, I used to work with Terminator which is a graphical-based terminal emulator and had a decent amount of functionalities where windows were split and tabs were created inside one whole application. The GNOME terminal also supports the same and gets these basic jobs done.</p>
+<p>Tmux on the other hand works in a different way. Tmux runs on the terminal emulator and performs these operations on the TUI itself. So it doesn’t matter which terminal application you use, Tmux is going to work in the same way. When you split the screen, it’s not the GUI of the Terminal (like in GNOME terminals) where it’s going to split graphically. It would be splitting the terminal space in that terminal session.</p>
+<p>It might sound a bit confusing in the beginning but is easy when you use it. Let me put it like a story:</p>
+<p>When you open a terminal emulator on a desktop environment, it runs as a GUI and starts a terminal session with the underlying operating system. All the stuff you work in here is gone into the terminal session and is confined inside it.</p>
+<p>When you split the terminal, a new session is created which is different from the session it was in that prompt. It’s a “different terminal session”. The same goes with the tabs, when you open a new tab, a new terminal session is spawned.</p>
+<p>In the case of Tmux, when you open a GUI terminal, you get that one terminal session to work on. When you start a Tmux session inside it, all the tabs and windows are packed into that tmux session which is running on the same terminal session. Hence, you would be controlling a lot of prompts inside the same terminal session. All the creation of tabs and windows would be happening inside the tmux session which was inside that terminal session.</p>
+<p>Now if somehow your terminal crashes or gets closed by mistake, the terminal session is lost and all the history or temporary environment variables disappear. But if you were working in the Tmux session, that Tmux session can be restored in any other terminal session as well.</p>
+<p>You can have multiple terminal sessions running and you can access the Tmux session from all of them at once. So even if one of the terminal sessions is closed, the underlying Tmux session doesn’t stop and can be restored.</p>
+<h2 id="tmux-for-linux-administration">Tmux for Linux Administration</h2>
+<p>Linux Administrators connect to servers remotely, commonly via SSH (Secure Shell). Working with a shell that is connected to a server with a network can be fragile. And you get disconnected with the shell, all the work that wasn’t saved or history can get destroyed. Tmux provides a persistent session here with a lot of other functionalities.</p>
+<p>When you log into a server, if you start a Tmux Session and start working on it, then that session is stored in the server while it’s running, even if the SSH is logged out. And you are allowed to create multiple Tmux sessions if you want! All those sessions would be restored even if get accidentally disconnected from the server, saving your precious work done on that session.</p>
+<p>Furthermore, when you spilt screens in terminal emulators, it happens on the client side. So when you are connected to a server and you need to do multiple things on different panes, you need to log in again on that split terminal (remember, the split terminal is a new terminal session, in this case on the client side only). But with Tmux when you split the screen, it’s split on the server side and you would see a split terminal on the client side in the same session of the terminal, without any interaction with the client’s terminal. The same goes with tabs, they are created on the server side with Tmux. And even when you disconnect from the server, all the Tmux sessions, tabs and windows are saved!</p>
+<p>This makes Tmux one of the best tools for Linux Administration purposes and when you are working remotely with servers.</p>
+<h2 id="tmux-for-personal-computers">Tmux for Personal Computers</h2>
+<p>As good as remote servers, Tmux works like a charm with productive setups on your personal computers. All the good things listed above are as important in Personal Computers too. Creating tabs, and sessions and splitting windows with persistent and redundant sessions come in handy while immersing in the work.</p>
+<p>When you are working with the terminal all the time (like Vim users), persistent sessions are important in case of disruptions like the terminal crashing or accidentally closing the terminal application. Everything in Tmux is stored as it was before it was detached.</p>
+<p>And learning Tmux has an advantage too. Tmux doesn’t care which terminal emulator has been used. So even if you are working on different terminal emulators, say you are a Kitty user shifted to Alacritty, the binding of Tmux would be as per your configurations and would not change. And when you are good with Tmux, your server administration skills will boost up too. When you are conceptually clear with Tmux and have the habits of key bindings, the terminal session on the servers will be as productive as it is on your personal computers.</p>
+<p>I recommend creating an automated script for these cases. For instance, if you need to constantly monitor CPU usage and Memory utilisation on the server while you work, Tmux widgets can be useful to do so. So you can develop a script, which when run on the remote server, installs and configures Tmux in that way in one command.</p>
+<h2 id="installing-tmux">Installing Tmux</h2>
+<p>Installing Tmux for different depending upon the Operating System, few of them are listed below (you can install it with your package manager):</p>
+<h3 id="debain-based-distros">Debain Based Distros</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install tmux
+</span></span></code></pre></div><h3 id="red-hat-based-distros">Red Hat-based Distros</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo yum install tmux
+</span></span></code></pre></div><h3 id="fedora-based-distros">Fedora Based Distros</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf install tmux
+</span></span></code></pre></div><h3 id="arch-linux-based-distros">Arch Linux Based Distros</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S tmux
+</span></span></code></pre></div><h3 id="opensuse">OpenSUSE</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo zypper install tmux
+</span></span></code></pre></div><h3 id="gentoo-linux">Gentoo Linux</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>emerge tmux
+</span></span></code></pre></div><h3 id="macos">MacOS</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install tmux
+</span></span></code></pre></div><h3 id="installing-from-source-unix-like-distros">Installing from Source (Unix Like Distros)</h3>
+<h3 id="installing-dependencies">Installing Dependencies</h3>
+<p>(Listing for Debain, same can be done with different package managers on different distros)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install -y build-essential libevent-dev libncurses-dev
+</span></span></code></pre></div><h4 id="downloading-the-source-code">Downloading the Source Code</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz
+</span></span><span style="display:flex;"><span>tar -xvzf tmux-3.3a.tar.gz
+</span></span><span style="display:flex;"><span>cd tmux-3.3a
+</span></span></code></pre></div><h4 id="compile-and-install">Compile and Install</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./configure
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><p>Refer the Official Tmux Wiki for more information or Troubleshooting: <a href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p>
+<h2 id="tmux-plugins---the-tmux-plugin-manager">Tmux Plugins - The Tmux Plugin Manager</h2>
+<p>Tmux supports a variety of plugins, which is made easy by the TPM (Tmux Plugin Manager) which allows you to manage your tmux plugins in a better way. Installing TPM is simple, use the following command to download TPM and just add the following line to your tmux.conf file (if it doesn’t exist, create one).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+</span></span></code></pre></div><pre tabindex="0"><code class="language-config" data-lang="config">set -g @plugin &#39;tmux-plugins/tpm&#39;
+
+# Plugins here 
+
+# At the end
+run &#39;~/.tmux/plugins/tpm/tpm&#39;
+</code></pre><p>Finally, run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tmux source ~/.tmux.conf
+</span></span></code></pre></div><p>After this, you are ready to install any plugin of your choice. A few plugins that I use will be listed in the next section where you can understand how to install plugins via TPM.</p>
+<h2 id="example-of-tmux-usage---how-i-use-it-and-my-config-files">Example of Tmux Usage - How I Use it and My Config Files</h2>
+<p>I use Tmux on my main Debian Machine and my Macbook all the time. My usual workspace is Tmux + NeoVim for both of my machines (and Tmux looks like a tiling window manager, just like DWM). Although, I use some plugins to make my Tmux beautiful and add some more features. Also, I use my custom bindings as per my requirements.</p>
+<p><img src="https://github.com/PythonHacker24/theminimalistbook/blob/main/static/tmux_screenshot.png?raw=true" alt="tmux"></p>
+<p>This is my Tmux configuration file:</p>
+<pre tabindex="0"><code class="language-config" data-lang="config">unbind r 
+bind r source-file ~/.tmux.conf
+
+set -g prefix C-s 
+set -g status-position top
+
+set -g status-position top
+
+# Vim Bindings 
+setw -g mode-keys vi 
+bind-key h select-pane -L 
+bind-key j select-pane -D 
+bind-key k select-pane -U 
+bind-key l select-pane -R
+
+# List of plugins 
+set -g @plugin &#39;tmux-plugins/tpm&#39;
+set -g @plugin &#39;dracula/tmux&#39;
+
+set -g @dracula-plugins &#34;cpu-usage ram-usage battery time&#34;
+set -g @dracula-show-powerline true
+set -g @dracula-show-left-icon window
+set -g @dracula-battery-label &#34;Battery&#34;
+set -g @dracula-git-show-current-symbol ✓
+set -g @dracula-time-format &#34;%T&#34;
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run &#39;~/.tmux/plugins/tpm/tpm&#39;
+</code></pre><p>I am using the dracula tmux colorscheme which is dark with optimal contrast to make tmux took awesome. Dracula supports a lot of other features like monitoring various things, like for me, the CPU, Memory and Battery (for Laptop) and a few other configurations.</p>
+<p>Dracula Theme Official Page: <a href="https://draculatheme.com/tmux">https://draculatheme.com/tmux</a></p>
+<p>Configuring Dracula is super easy and is well documented on the Official Page.</p>
+<p>Here, I am using NeoVim on MacOS and I will be posting articles on NeoVim in the future about how to configure it and use it for maximum developer productivity.</p>
+
+</article>
+
+                
+    
+    
+        This is footer.
+You can edit this in ../nostyleplease/layouts/footer.md
+    
+
+
+            </div>
+        </main>
+    </body>
+</html>
