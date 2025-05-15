@@ -1,0 +1,55 @@
++++
+category = "technical"
+title = "Serious Reconnaissance with Unmanned Aerial Vehicles — Mapping Out Devices in an Area with Drones"
+date = 2024-04-02
++++
+
+*<strong>Introduction:</strong> The following content is for educational purposes and for hackers living in basements knowing enough ethics. The author is not responsible for any damage caused by the knowledge provided here and does not support anything like that. It’s essential to check out the rules in the area of reconnaissance about the tactics provided here and the use of materials (unless and until there is any apocalypse and a solid recon is required). Rest assured, using drones and hacking techniques is awesome!*
+
+## Introduction
+Drones or Unmanned Aerial Vehicles in general are awesome due to their reachability and control from long distances. Modern UAVs can carry a lot of payload within a long range of distance and are relatively inexpensive than ever before. Hence, any hacker in the basement with limited resources or a survivor of an apocalypse can build it anywhere. Combining these features with tools that can help map out devices around the area is an awesome way of doing a quick reconnaissance.
+
+In this article, I am referring to drones as UAVs, especially FPV drones due to their speed and maneuverability as well as the capacity to carry payload. These are relatively inexpensive to build and can be built to have a long-range as per the requirements. Although, any UAV would work like a spy plane, etc. The fact that drones are stable and can be static in situations of halting the movement in one place can be particularly useful in some situations where the recon is taking time to execute. Since drones can fly at lower altitudes with higher degrees of control over a plane, and the type of equipment used by the hacker in the basement is inexpensive, proximity to the recon target is essential.
+
+Modern cities have millions of devices at every corner of them. These devices continuously emit radio frequency of standard frequency with lots of data. This continuous emission of data can be used to fingerprint the device and find out the kind of activity happening at that particular location. For example, smart meters continuously emit radio frequency for communication over a large mesh of networks. Hence, knowing the emission can take you toward the power grid, mapping out all the meters all over the place. This article incorporates carrying out recon over the area with UAVs and mapping devices to monitor activities as well as advanced methods to recon specific devices with edge computing on the UAV as well as cloud integration.
+
+## What to Recon in your Area?
+In a city or any area in general nowadays where the movement of people is present, there are devices along the way. These devices emit radio waves to communicate or even as part of their functionality. It’s surprising to watch the stats showing the emission of these radio frequencies all over space with the amount of information disclosure. Hence, capturing these radio frequencies and analyzing them would reveal a lot of information about the area.
+
+Here, I am not considering a single portion of the spectrum of Radio Frequency but the whole range of standard frequencies at which devices communicate with each other and reveal their information. For example, Access Points like Wi-Fi routers emit packets showing their presence over the area, disclosing their MAC addresses. These packets can be captured over a large and a lot of information can be fetched by it. MAC addresses reveal information like its Vendor or even model numbers. Since these devices are in buildings and offices, direct recon would not have been possible. This can be considered as a leak of information outside the premises since radio waves have no boundaries over the walls.
+
+This information can be used by malicious attackers to social engineer the targets by vendor names and exact model numbers of the devices. Further down the road, various protocols can be found in these devices which can be exploited by existing exploits, over the computers in the UAV can be helpful.
+
+## Mapping a Heat Map of Devices
+Since UAVs are capable of flying for long ranges, the emission of Radio Waves can be captured and marked on maps. This includes tools like Software Defined Radio, for example, RTL-SDR, HackRF, etc. to be mounted on the UAV and connecting it to a small or single-board computer like a Raspberry Pi or Nvidia Jetson Nano. A software can be written to capture the data and mark the device on the map of the area for future reference. Also, data can be pushed into cloud servers if the Internet is accessible by the drone. Since the cloud has a lot of storage and is expandable, long recon projects can be carried out.
+
+The technique and technology used here depend upon the resources. Real-time data processing while the UAV is flying is awesome and can fetch faster results but at the same time, the development of such a device takes considerable time as well as resources. Hence, data that is captured can just be logged and returned to the base for analysis.
+
+Devices like Wi-Fi access points are very common. Hence, specialized equipment must be used in this case such as monitor mode Wi-Fi adapters with Single Board Computers. Since Wi-Fi access points disclose a lot of information, it needs to be treated separately.
+
+## Required Resources to Gather at Minimal Reconnaissance Project
+The following are the resources required to do this at a minimal level:
+
+1. An FPV Drone with a Payload Capacity of more than 1 Kilograms
+2. Software Defined Radio Adapters like RTL-SDR
+3. Alfa Long Range Wifi adapter with 2.4GHz and 5GHz dual-band support with as many antennas as possible.
+4. Single Board Computer like a Raspberry Pi
+5. Storage Medium like a light-weight Portable SSD
+6. GPS device to find the location
+Having these many resources is sufficient for getting the recon project done. Again, a lot of things can be minimized and upgraded as per the required preferences.
+
+And of course, having some drone skills would help a lot since FPV drones need a lot of practice to handle. A lot of equipment is installed on the drone, so no one wants to crash it and lose the material and data.
+
+## Advanced Attacks over the Sky
+Since a whole computer is attached to the UAV, real-time attacks can be carried out on the way. For example, WiFi access Points have UPNP exposed, which sometimes is not only at the LAN but also WAN (it’s a misconfiguration done by vendors which has been seen as per my research on UPNP). Active recon can be done in this case to know the possibilities of using functions in UPNP to get port forwarding to recon internal devices in the LAN.
+
+Over the flight, deauthentication attacks can be done to capture handshakes all over the area to crack it on the cloud servers or after getting back the drone with GPUs.
+
+For this purpose, automated scripts need to be written that would be the attack done at the right time and the right location. More the effort, more the data can be retrieved from a particular location.
+
+Nowadays, smartphones also emit a lot of Wifi packets for discovery. Hence, people density maps can be calculated and places can be known of people gathering over a location. This is usually used in supermarkets to find where people visit the most and improve the marketing things. This is done with the same Wifi adapters that monitor the area for these packets. For our project, this can be done with a hovering UAV marking the MAC address and devices at the location on the MAP.
+
+## Conclusion
+It’s scary to think about the amount of information these devices can gather over the area. And availability of these devices these days is not difficult and is more inexpensive than ever. What I have written is just a scratch on the surface of the level of recon that can be done. For example, automating the drone flight and getting swarms of drones can get this thing done with high efficiency. If these drones are controlled by malicious attackers, it can cause a denial of service over the space and within the reachability of these UAVs.
+
+Previously, a similar mechanism was used with cars called war-driving where these tools monitored the area and that vehicle was driven over the area. With these UAVs, it can be done from a remote location with much more area covered and cost-optimisation.
