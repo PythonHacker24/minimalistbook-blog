@@ -6,8 +6,22 @@
     <description>Recent content on ⭐️ The Minimalist Book</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://minimalistbook.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>These Things Are Much Better Than Spending Time on Résumé</title>
+      <link>https://minimalistbook.com/posts/better_than_resume/</link>
+      <pubDate>Sun, 23 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/better_than_resume/</guid>
+      <description>&lt;p&gt;&lt;em&gt;&lt;!-- raw HTML omitted --&gt;Preface&lt;!-- raw HTML omitted --&gt; I have been reviewing a lot of literature related to the job market in software engineering and analysing what stands apart and what gets rejected. While writing this article, I am at a very young age and I am very grateful to say that I had an opportunity to interview people for hiring them into a startup, despite my role as a DevSecOps intern (I was that one multi-tasking startup guy). In this process, I met people with very different backgrounds and skill sets and learnt a lot about how some people become a perfect match for a company, while others fail despite their hard will to work. In this article, I am writing about my opinions and personal recommendations about what makes you stand apart while applying to a company.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>You Need to Do this to Get An Unfair Advantage in the Software Engineering Market</title>
+      <link>https://minimalistbook.com/posts/you_need_to_do_this_to_get_an_unfair_advantage_in_the_software_engineering_market/</link>
+      <pubDate>Thu, 06 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/you_need_to_do_this_to_get_an_unfair_advantage_in_the_software_engineering_market/</guid>
+      <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;Preface:&lt;/strong&gt;&lt;/em&gt; &lt;em&gt;This article is about my experiences and opinions based on my knowledge. We all have an unfair advantage since we all are unique and using that to get better in the market would take you much further. I have been working with software for like a few years while being a university student and learnt a lot from all the amazing people I worked with and followed. While I put down things that I learnt, it has to be noted that your opinions and experiences may vary and I greatly respect that.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>The Best Way to Learn a New Programming Language from Scratch - How I Approach and Learn Any Programming Language Efficiently</title>
       <link>https://minimalistbook.com/posts/how_to_learn_a_new_programming_language/</link>
@@ -35,6 +49,13 @@
       <pubDate>Mon, 27 May 2024 00:00:00 +0000</pubDate>
       <guid>https://minimalistbook.com/posts/tmux_is_the_ultimate_choice_for_power_users/</guid>
       <description>&lt;h2 id=&#34;what-is-tmux&#34;&gt;What is Tmux?&lt;/h2&gt;&#xA;&lt;p&gt;Tmux is a Terminal Multiplexer Application for Linux and MacOS for managing terminal sessions and Windows. It is to be mentioned that Tmux is not a terminal emulator, instead, it’s a terminal application, a binary that allows you to stay productive over your terminal. It doesn’t matter which terminal emulator you are using (although I recommend the Suckless Terminal). The functionality of managing Windows and the session doesn’t happen on the desktop GUI side but on the terminal session, you are working with.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Future of Work and Lifestyle - The Inevitable Change in Thinking and Growth</title>
+      <link>https://minimalistbook.com/posts/the_future_of_work_and_lifestyle/</link>
+      <pubDate>Wed, 22 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/the_future_of_work_and_lifestyle/</guid>
+      <description>&lt;h2 id=&#34;the-current-system-of-workspace&#34;&gt;The Current System of Workspace&lt;/h2&gt;&#xA;&lt;p&gt;Working for a company or an organisation to become financially stable surely makes you and your family proud, and certainly, when you were in the 90s, that’s what most people termed as widely successful. It’s absolutely important to make money to have a nice home and send your kids to a good school. And most of the time that works and maybe certainly enough. This method of surviving has dominated for a while now and has shaped the current workspace.&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Concept of RSS Feed - A Reliable Way for Publishers and Subscribers Model</title>
@@ -114,6 +135,13 @@
       <description>&lt;h2 id=&#34;introduction-and-context&#34;&gt;Introduction and Context&lt;/h2&gt;&#xA;&lt;p&gt;I was going through the book “Linux Kernel Development” by Robert Love, an absolute guide to getting started with Linux Kernel Development and a highly recommended book for understanding the core of the Linux Kernel. Linux Kernel has been one of the most important software ever written and is even considered one of the biggest projects ever undertaken by a single person. The idea of the Linux Kernel was initiated by Linus Torvalds, a student from the University of Helsinki and is maintained by him to date (while writing this article). The roots of Linux however originate from the Unix Operating System and adopt the very necessary principle on which the Unix Operating System was based. To understand the development of the Linux Kernel, a pinch of history about Unix is necessary.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>There are always Flaws — Malware Development and Exploitation of Control Flow</title>
+      <link>https://minimalistbook.com/posts/there_are_always_flaws/</link>
+      <pubDate>Mon, 22 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/there_are_always_flaws/</guid>
+      <description>&lt;p&gt;&lt;em&gt;&lt;!-- raw HTML omitted --&gt;Disclaimer:&lt;!-- raw HTML omitted --&gt; The Author of the article does not hold any opinions of facts other than computer technology. Everything here is as per my research and may not be fully accurate (although I tried my best). He is a very simple person and a computer nerd so information in this blog must be taken with a pinch of salt.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;I have been studying Cyber Security since an early age and know a few things about it till now. My major interest has been in Binary Exploitation which I followed after completing the fundamentals of Web Application Security and eventually got bored. I always found the low levels of computers to be the most fascinating (one of the reasons is less people understand it and consider it to be complex). These interests came with the study of historical attacks like Stuxnet which I recently found and researched about. Although I am still learning the whole flow of the malware (actually worm) execution and the scope they had while running it. These attacks make the computing industry more exciting to explore and understand that everything has some flaws, it’s just the latency of when it is found.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Linux Shell Scripting — A Suckless and Concise Guide to the Command-line of Linux</title>
       <link>https://minimalistbook.com/posts/linux_shell_scripting/</link>
       <pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate>
@@ -135,11 +163,32 @@
       <description>&lt;p&gt;Let me suckless and divide the article into two parts:&lt;/p&gt;&#xA;&lt;p&gt;My story how I blew up Pacman Package Manager&#xA;How to reinstall the Pacman Package Manager&#xA;If you only care about the second part, skip the first one.&lt;/p&gt;&#xA;&lt;h2 id=&#34;the-scenario--blow-it-up&#34;&gt;The Scenario — Blow it Up&lt;/h2&gt;&#xA;&lt;p&gt;I was trying to install the pacman game from the Internet to get it running on my Arch Linux Terminal (I use Suckless Terminal BTW). When I got it installed and played it, it was super awesome. It was fun to the point that I decided to add it to my /usr/bin directory to make it my usual command and play it whenever I want. This is where I messed up and replaced the Pacman Package Manager binary with the Pacman Game binary. And now I ended up losing it and unable to update or install anything to my system and enabled me to play a Pacman Game.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>An Old Computer’s Teachings — Why Vintage Systems Can Make You an Expert</title>
+      <link>https://minimalistbook.com/posts/an_old_computers_teachings/</link>
+      <pubDate>Tue, 16 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/an_old_computers_teachings/</guid>
+      <description>&lt;p&gt;On June 10 1997, Apple Computers released the Apple 2 computer which was one of the first mass-produced computers in the world. It was a success and had a sale of 5–6 million units till the year of 1993. There was a small documentary on this by Bloomberg Originals (&lt;a href=&#34;https://www.youtube.com/watch?si=-yGxleXsdCY7CWeC&amp;amp;v=pJif4i9NRdI&amp;amp;feature=youtu.be&#34;&gt;here on YouTube&lt;/a&gt;) about the same with Steve Wozniak. Now I am not a 90’s kid or something. I was born in the year 2004 and had no connection with these computers. The first computer I remember was a custom-made PC from a local vendor with an Intel Core 2 Duo and 2 GB of DDR2 Single Channel RAM running Windows 7 Professional on it. I owe a lot of respect to that computer. The fact that I got access to a computer at an early age (5 years old) was a blessing (at least I believe that). I used it mostly for exploring the whole thing and getting some retro games run on it. When I grew up to the age of 16, I decided to rip off the whole computer and understand how it works. I had all the parts disassembled and used the mighty Internet to learn how to build a new one. I studied the parts that I needed, which were the most cost-efficient and high-performance. With the patience of learning them for a month and a half, I went on to build my PC. It was a 16GB RAM (3000 MHz), 480GB SSD, AMD Ryzen 2400G with Vega 11 Graphics. I use that computer till the day I am writing this blog. No upgrades or anything, just the transition from Windows to Arch Linux. Again I consider myself lucky because all I knew before building my PC was Intel. That year, Intel and AMD were at the most competitive stage. And the first time in history (or as per I know), AMD surpassed the Intel Processors and I went on with the AMD. It was an incredible experience using my PC and today, I use it as my primary desktop and as a workstation with Linux installed on it.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Boot Process of Computers — A Learner’s Perspective Of Exploring the Depth of Computers</title>
       <link>https://minimalistbook.com/posts/boot_process_of_computers/</link>
       <pubDate>Mon, 15 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://minimalistbook.com/posts/boot_process_of_computers/</guid>
       <description>&lt;p&gt;&lt;em&gt;Prior Clarifications: Here, I will be providing a philosophical explanation about the bootloaders and understanding them in a simple and as minimal way as possible. This is not supposed to be a manual for bootloader or provide any advice for experimenting over your live system. It’s my journey to understand computers (one of the most complex creations of mankind) and I will be stating my thoughts. Take it with a pinch of salt.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>A Minimalist System — Philosophy Behind Terminal-based Applications to Suckless</title>
+      <link>https://minimalistbook.com/posts/a_minimilist_system/</link>
+      <pubDate>Sun, 14 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/a_minimilist_system/</guid>
+      <description>&lt;p&gt;Since I have been using Linux for most of my life till now and while I started my computer usage on the Windows Operating System (at a very early age), terminal-based programs have been a life-changing things for me. I have been a person obsessed with minimalism and simplicity in everything. While I spend most of my day in the cyber world, I like to have my computer workspace as minimal as possible. For the start of getting a minimal operating system as well as a laptop so minimal that it has only 3 holes and 1 socket for charging, the Macbook Air M2. This was a great laptop to me, given that the macOS is so minimal by design and the hardware itself is simple and minimal. But while using the MacBook, I figured out that I use my MacBook through my terminal. I started realising how easy it is to interact with the computer with a terminal, nearly for every purpose. Finally, after some time, I got my old PC which had some decent specs [16GB RAM + AMD Ryzen 2400G + 512GB SSD], I started using Arch as my go-to Operating System. Arch by design is a Simple and Minimal Operating System.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Alchemy of Open-Source Software — Community and Freedom</title>
+      <link>https://minimalistbook.com/posts/alchemcy_of_open_source_software/</link>
+      <pubDate>Sat, 13 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/alchemcy_of_open_source_software/</guid>
+      <description>&lt;p&gt;&lt;em&gt;&lt;!-- raw HTML omitted --&gt;Disclaimer&lt;!-- raw HTML omitted --&gt; — The following blog post contains the very personal opinions of the writer and is not intended beyond the scope of stating views about the Open-Source. The author respects the opinions of each individual so take it with a pinch of salt.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;Open-source software has been there for a long time since the software industry started to get into some shape. Open-source is not just a way of developing software but a value that makes individuals in the community contribute to making their skills useful to the world. Lots of smart people out there have so much talent into them which can have a great impact on society, and it may be a case that they are under-estimated by the corporate world. Even it may be a case that a well-paid software developer might have a thing or two to donate to the well-being of society in the form of software. Nonetheless, the values are the same, to have greater freedom and more access to the software by as many people as we can.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Networking Fundamentals for Linux Administrators — A Suckless and Concise Explanation</title>
@@ -168,6 +217,13 @@
       <pubDate>Mon, 08 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://minimalistbook.com/posts/bypass_the_linux_login_to_access_the_files/</guid>
       <description>&lt;p&gt;Imagine being away from the computer for a couple of minutes and getting to know that the system has been compromised and a backdoor has been installed into the system. “The system was locked?” doesn’t matter, without the bios security implementation (which most probably would not be implemented), all the files can be recovered without any login made to the Login Screen.&lt;/p&gt;&#xA;&lt;p&gt;This goes with the story of me trying to get my Wi-Fi troubleshooting in Arch Linux where I was trying to upgrade the Kernel of my System to get the Wi-Fi working properly (as mentioned in the previous blog. By the way, I got the Wi-Fi working). I used an Arch Installation medium to get into the system and extract all my backup data into a USB.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Arch Linux Tales: No Wi-Fi for Today!</title>
+      <link>https://minimalistbook.com/posts/arch_linux_tales/</link>
+      <pubDate>Sun, 07 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://minimalistbook.com/posts/arch_linux_tales/</guid>
+      <description>&lt;p&gt;I have been using Arch Linux for days now for the sake of having full control over the hardware as well as the software (not moved to LibreBoot or CoreBoot but someday in the future). I have been utilising the suckless utilities and ricing my system for the best look I can have and take the privilege of saying “I use Arch BTW”. Since the total control of the Hardware and Software falls in the hands of the user and Arch repository Pacman releases even the latest packages, way before the software is even stable creating a sensation of being the early user of the tool at the same time being ready to crash out the system.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
