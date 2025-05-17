@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="Caching can be an effective method of improving API performance by reducing latency and resource utilization. However, things have drawbacks, especially in system design. So here are 10 things you must keep in mind while implementing caching, listed concisely.
+By doing this, you will be able to manage caching operations systematically, ensure reliability, and improve the security of your services.
+
+If you are new to the caching method, check out my previous blog.">  
+
+  <title>
+    
+      Configuring Redis with Golang API Server — System Design for Developers
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.51652302d3a998bf7887aed5c2cf89141bbebdf45a2c8f87b0717a3cf4f51c4e53c694c328fb1de78c3a625a1c01f80745bf1f2f42c040647a245cbbb6c2d1d7.css" integrity="sha512-UWUjAtOpmL94h67Vws&#43;JFBu&#43;vfRaLI&#43;HsHF6PPT1HE5TxpTDKPsd54w6YlocAfgHRb8fL0LAQGR6JFy7tsLR1w==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2025-01-29 00:00:00 &#43;0000 UTC">
+                            2025-01-29
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Configuring Redis with Golang API Server — System Design for Developers</h1>
+
+    
+
+    <p>Caching can be an effective method of improving API performance by reducing latency and resource utilization. However, things have drawbacks, especially in system design. So here are 10 things you must keep in mind while implementing caching, listed concisely.</p>
+<p>By doing this, you will be able to manage caching operations systematically, ensure reliability, and improve the security of your services.</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*ojWLag4o6KsInHgnZdVEdg.png" alt="diagram"></p>
+<p>If you are new to the caching method, check out my previous blog.</p>
+<p>I am jumping straight into the points and will cover everything concisely to save you time. I will be using Golang for any examples, which is a very easy-to-understand language, and you can use the same concepts in languages of your choice. The database of my choice will be Redis, which dominates the caching world.</p>
+<h2 id="setting-expiry-times-ttl">Setting Expiry Times (TTL)</h2>
+<p>TTL stands for time to live, which, in this context, is the time for cached data to persist in the database. This ensures that any entry in the cache database is deleted after a set time. There are a couple of benefits it provides:</p>
+<ol>
+<li>The most basic way of invalidating stale data.</li>
+<li>Freeing up the limited space in the in-memory caching database.</li>
+<li>Ensure requests made after a long time are updated from the primary database to ensure data is updated.</li>
+</ol>
+<pre tabindex="0"><code>err := redisClient.Set(ctx, &#34;key&#34;, &#34;value&#34;, time.Minute).Err()
+if err != nil {
+    log.Fatalf(&#34;Failed to set key: %v&#34;, err)
+}
+</code></pre><p>You can change the value of TTL to adjust the freshness of your data. Databases like Redis are equipped with expiration timers, so you don’t need to perform delete operations manually.</p>
+<h2 id="using-cache-invalidation">Using Cache Invalidation</h2>
+<p>Explicitly invalidating data as soon as an update is made on the primary database ensures that the service doesn’t end up serving older data.</p>
+<p>Doing this has a couple of benefits over security and user experience:</p>
+<ol>
+<li>It prevents users from dealing with old data that they just updated. This is useful when you are serving user-controlled dynamic data.</li>
+<li>Older data can cause security issues. For example, if you block a user, a non-updated cache can unintentionally authorize access.</li>
+</ol>
+<p>You can delete a key in Redis by:</p>
+<pre tabindex="0"><code>err := redisClient.Del(ctx, &#34;key&#34;).Err()
+if err != nil {
+    log.Fatalf(&#34;Failed to delete key: %v&#34;, err)
+}
+</code></pre><p>It’s better to delete the data than to update it since it makes the system read the data from the primary database and perform write operations on the caching database, which is resource-intensive.</p>
+<p>A notification from the primary database about an update and delete operation on the caching database is usually less computationally intensive.</p>
+<p>This process can be done asynchronously, and in the case of Golang, goroutines can prove useful.</p>
+<h2 id="write-through-cache">Write-Through Cache</h2>
+<p>In certain cases, when the data is user-controlled and isn’t changed frequently (and in rare cases, not serving that data causes the whole chain of data to slow down), you would need to update the cache.</p>
+<pre tabindex="0"><code>func UpdateData(ctx context.Context, key string, value string) error {
+    err := db.Update(key, value)
+    if err != nil {
+        return err
+    }
+
+    return redisClient.Set(ctx, key, value, time.Minute).Err()
+}
+</code></pre><p>In this case, the updating cache mechanism can be done asynchronously, depending upon the requirements.</p>
+<h2 id="read-through-cache">Read-Through Cache</h2>
+<p>When data is needed to be fetched, first query the caching database. If the cache is missed, fetch the data from the primary database and write it to the cache asynchronously.</p>
+<pre tabindex="0"><code>func GetData(ctx context.Context, key string) (string, error) {
+    val, err := redisClient.Get(ctx, key).Result()
+    if err == redis.Nil {
+        // Cache missed! fetch from DB
+        val, err = db.Get(key)
+        if err != nil {
+            return &#34;&#34;, err
+        }
+        // Update the cache
+        go redisClient.Set(ctx, key, val, time.Minute)
+    } else if err != nil {
+        return &#34;&#34;, err
+    }
+    return val, nil
+}
+</code></pre><p>This is a basic checkpoint, but it’s necessary to remember so you don’t forget asynchronous updating and end up writing the cache database procedurally and causing latency.</p>
+<h2 id="cache-busting-with-versioned-keys">Cache Busting with Versioned Keys</h2>
+<p>Appending a version or timestamping cached keys can be a way to invalidate stale data. This ensures that outdated keys are ignored.</p>
+<pre tabindex="0"><code>versionedKey := fmt.Sprintf(&#34;key:%d&#34;, currentVersion)
+redisClient.Set(ctx, versionedKey, &#34;value&#34;, time.Minute)
+</code></pre><p>When hitting the cache, you can append the version number (or timestamp) and check the value.</p>
+<h2 id="background-cache-refresh">Background Cache Refresh</h2>
+<p>There are two ways you can achieve a background refresh mechanism:</p>
+<ol>
+<li><strong>Lazy:</strong> Refresh cache data with the primary database when a cache miss occurs.</li>
+<li><strong>Proactive:</strong> Refresh cache data with the primary database after a set interval with a background job or service.
+This is more useful in cases where you have the whole primary database mirrored into a cache database.</li>
+</ol>
+<h2 id="distributed-locking">Distributed Locking</h2>
+<p>Distributed Locking is used to prevent race conditions.</p>
+<p>Race conditions occur when multiple services or processes try to access the data simultaneously. This can have serious consequences and crash the backend services.</p>
+<p>In our example, if multiple processes interact with Redis, use distributed locks (e.g., using SETNX or Redlock) to ensure only one process updates the cache at a time, avoiding race conditions.</p>
+<h2 id="implementing-cache-consistency-policies">Implementing Cache Consistency Policies</h2>
+<p>Choosing consistent caching policies depending on the applications is strategically advantageous. Basically, there are 2 ways you can proceed.</p>
+<ol>
+<li><strong>Strong Consistency:</strong> Always update the cache on database changes, which is resource-intensive.</li>
+<li><strong>Eventual Consistency:</strong> Allow slight delays in synchronization, useful for performance.</li>
+</ol>
+<p>Planning this before building the application can save you a lot of debugging and fixes.</p>
+<h2 id="monitoring-and-tuning-cache-usage">Monitoring and Tuning Cache Usage</h2>
+<p>As important as monitoring backend processes and microservices, ensuring these little caching databases get enough attention is also necessary. Caching surely can improve performance by a huge factor, but if it starts behaving abnormally, it can take down the whole infrastructure.</p>
+<p>In the case of Redis, use commands like INFO, MONITOR, or third-party tools to monitor cache health, eviction rates, and hit/miss ratios. Optimizing TTLs and cache eviction policies (LRU, LFU, etc.) can be useful.</p>
+<h2 id="avoiding-dog-pile-effect">Avoiding Dog-pile Effect</h2>
+<p>The dog-pile effect in caching occurs when multiple requests simultaneously attempt to regenerate a cache entry after it expires. This can overwhelm the backend system and degrade performance.</p>
+<p>Avoiding this is not as simple, and I need a full article. For now, Google and AI tools should be used to work around this. As a concise checklist, I can’t do justice to this topic by squeezing it here.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Caching, if done correctly, is a powerful accelerator for your backend infrastructure. By keeping these points in mind, you can make sure that your cache implementations remain consistent and perform as expected.</p>
+<p>Will see you in my next article, bye!</p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

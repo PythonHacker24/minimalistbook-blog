@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="I have been writing API servers in Go for a long time, and boosting performance has been one of my primary goals. Fortunately, databases like Redis make it easy to do so, and in this article, I will walk you through using Redis to boost API performance.
+Particularly, I would be caching API keys the user sends, which I usually authenticate with Firebase as my primary database for storing user-related information. Despite the ease of storing user-related data, databases like Firebase have low I/O speeds and take response times in the order of 100s of milliseconds. If your API server requires API Keys to authenticate and is called frequently by the user, caching can help to improve the API server’s performance by a magnitude of 100 times.">  
+
+  <title>
+    
+      Configuring Redis with Golang API Server — System Design for Developers
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.51652302d3a998bf7887aed5c2cf89141bbebdf45a2c8f87b0717a3cf4f51c4e53c694c328fb1de78c3a625a1c01f80745bf1f2f42c040647a245cbbb6c2d1d7.css" integrity="sha512-UWUjAtOpmL94h67Vws&#43;JFBu&#43;vfRaLI&#43;HsHF6PPT1HE5TxpTDKPsd54w6YlocAfgHRb8fL0LAQGR6JFy7tsLR1w==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2025-01-26 00:00:00 &#43;0000 UTC">
+                            2025-01-26
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Configuring Redis with Golang API Server — System Design for Developers</h1>
+
+    
+
+    <p>I have been writing API servers in Go for a long time, and boosting performance has been one of my primary goals. Fortunately, databases like Redis make it easy to do so, and in this article, I will walk you through using Redis to boost API performance.</p>
+<p>Particularly, I would be caching API keys the user sends, which I usually authenticate with Firebase as my primary database for storing user-related information. Despite the ease of storing user-related data, databases like Firebase have low I/O speeds and take response times in the order of 100s of milliseconds. If your API server requires API Keys to authenticate and is called frequently by the user, caching can help to improve the API server’s performance by a magnitude of 100 times.</p>
+<p>I would use a Golang-based REST API server, which uses Firebase for authentication and serves news data to fronted applications. The user is required to send an HTTP Header X-API-Key: <!-- raw HTML omitted --> to fetch the data. The valid API keys are stored in Firebase with mechanisms that are out of scope for this article.</p>
+<h2 id="what-is-the-redis-database-and-concept-caching">What is the Redis Database and Concept Caching?</h2>
+<p>Caching temporarily stores data in a database with high I/O performance (typically less storage capacity, data organization capabilities, and features) if your primary database has a slower I/O performance (but better authentication features and storage capabilities).</p>
+<p>Caching is applied when data is accessed frequently, and the data source has a significant overhead compared to what it needs to be. Once pulled from the primary source, the data can be stored in a faster database and used multiple times.</p>
+<p>In this case, Firebase is a feature-rich database, but improvements can be made on the I/O side. This performance latency is not the issue with Firebase’s design but due to its nature of spending resources on other important features.</p>
+<p>Redis is an in-memory, single-threaded, key-value pair database. In-memory databases store data in RAMs with faster I/O speed (lower space) than disk-based databases (huge space). You can store data in a key-value format, for example api-key: <!-- raw HTML omitted -->.</p>
+<p>To learn more, visit <a href="https://redis.io/">Redis Official Website</a>.</p>
+<h2 id="drawing-the-architecture">Drawing the Architecture</h2>
+<p>This is the most basic way of authenticating a user for an API server.</p>
+<ol>
+<li>Query the Firebase server to check if the API Key is correct</li>
+<li>Wait for time T (magnitude of 100 milliseconds)</li>
+<li>Get the Response and take action based on the response</li>
+</ol>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*RQP8KAv6cgEzXQO8ncfIwA.png" alt="redis1"></p>
+<p>Here is the updated diagram after caching:</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*ojWLag4o6KsInHgnZdVEdg.png" alt="redis2"></p>
+<p>Here is what happens:</p>
+<ol>
+<li>Ask Redis if the User Exists.</li>
+<li>Wait for time T (magnitude of 1 milliseconds or even 100 microseconds)</li>
+<li>If Yes, authorize the user</li>
+<li>If no, Ask Firebase</li>
+<li>Wait for time T (magnitude of 100 milliseconds)</li>
+<li>If Yes, authorize the user</li>
+<li>Store User Auth in Redis</li>
+</ol>
+<p>So when the request is made for the first time, it takes 100s of milliseconds to process the request. But the next time, it’s in the order of 1s of milliseconds or even microseconds if the Redis server is close to the API server.</p>
+<h2 id="issues-with-caching-and-how-to-tackle-them">Issues with Caching and How to Tackle Them</h2>
+<p>Caching has its advantages but has some serious problems that must be solved.</p>
+<p>If the API Key on Firebase is removed for any reason, for example, it expires or is banned from using the service, your API Server might not recognize the update and validate users based on the data stored in Redis. This is called “stale data”. In that case, this causes the issue of inconsistency.</p>
+<p>Hence, you must keep the Redis database in sync with your primary one. Updating Redis every time something happens might not be feasible, cause additional overheads to the database, and potentially slow down Redis due to too many frequent writes.</p>
+<p>In this example, we set up TTL (time to live) for each key in Redis. After a certain interval, Redis deletes the key, clears the cache, and updates it when the next request is made. This should be done depending on your applications. In my case, I will keep it for 10 mins. A formal term for this method is called “flushing.”</p>
+<p>Advanced methods like event-based updates can be used, which I will explain in my upcoming articles.</p>
+<h2 id="jumping-onto-the-code">Jumping onto the Code</h2>
+<p>Here is what the REST API Server built with Golang and the standard library net/http:</p>
+<pre tabindex="0"><code>package main
+
+import (
+ &#34;context&#34;
+ &#34;fmt&#34;
+ &#34;net/http&#34;
+
+ &#34;firebase.google.com/go/v4&#34;
+ &#34;firebase.google.com/go/v4/auth&#34;
+ &#34;google.golang.org/api/option&#34;
+)
+
+var firebaseAuth *auth.Client
+
+func init() {
+ // Initialize Firebase Auth
+ opt := option.WithCredentialsFile(&#34;path-to-your-firebase-service-account.json&#34;)
+ app, err := firebase.NewApp(context.Background(), nil, opt)
+ if err != nil {
+  panic(fmt.Sprintf(&#34;Failed to initialize Firebase App: %v&#34;, err))
+ }
+
+ firebaseAuth, err = app.Auth(context.Background())
+ if err != nil {
+  panic(fmt.Sprintf(&#34;Failed to initialize Firebase Auth: %v&#34;, err))
+ }
+}
+
+func main() {
+ setupRoutes()
+
+ port := &#34;:8080&#34;
+ fmt.Printf(&#34;Starting server on port %s \n&#34;, port)
+ err := http.ListenAndServe(port, nil)
+ if err != nil {
+  fmt.Printf(&#34;Could not start server: %s \n&#34;, err)
+ }
+}
+
+// Setting up API endpoints
+func setupRoutes() {
+ versionPrefix := &#34;/api/v1&#34;
+ http.HandleFunc(versionPrefix+&#34;/ping&#34;, requestMiddleware(ping))
+ http.HandleFunc(&#34;/&#34;, FallbackHandler)
+}
+
+// Middleware to authenticate requests
+func requestMiddleware(next http.HandlerFunc) http.HandlerFunc {
+ return func(w http.ResponseWriter, r *http.Request) {
+  apiKey := r.Header.Get(&#34;X-API-Key&#34;)
+  if apiKey == &#34;&#34; {
+   http.Error(w, &#34;Missing API Key&#34;, http.StatusUnauthorized)
+   return
+  }
+
+  // Verify API Key with Firebase
+  token, err := firebaseAuth.VerifyIDToken(context.Background(), apiKey)
+  if err != nil {
+   http.Error(w, &#34;Invalid or Unauthorized API Key&#34;, http.StatusUnauthorized)
+   return
+  }
+
+  next(w, r)
+ }
+}
+
+// Ping handler
+func ping(w http.ResponseWriter, r *http.Request) {
+ w.WriteHeader(http.StatusOK)
+ _, _ = w.Write([]byte(&#34;pong&#34;))
+}
+
+// Fallback Handler
+func FallbackHandler(w http.ResponseWriter, r *http.Request) {
+ http.Error(w, &#34;Invalid Endpoint&#34;, http.StatusNotFound)
+}
+</code></pre><p>It works as explained in the diagram above with no caching.</p>
+<p>Here is the code for caching API keys with Redis:</p>
+<pre tabindex="0"><code>package main
+
+import (
+ &#34;context&#34;
+ &#34;fmt&#34;
+ &#34;net/http&#34;
+ &#34;time&#34;
+
+ &#34;github.com/go-redis/redis/v8&#34;
+ &#34;firebase.google.com/go/v4&#34;
+ &#34;firebase.google.com/go/v4/auth&#34;
+ &#34;google.golang.org/api/option&#34;
+)
+
+var (
+ firebaseAuth *auth.Client
+ redisClient  *redis.Client
+)
+
+func init() {
+ // Initialize Firebase Auth
+ opt := option.WithCredentialsFile(&#34;path-to-your-firebase-service-account.json&#34;)
+ app, err := firebase.NewApp(context.Background(), nil, opt)
+ if err != nil {
+  panic(fmt.Sprintf(&#34;Failed to initialize Firebase App: %v&#34;, err))
+ }
+
+ firebaseAuth, err = app.Auth(context.Background())
+ if err != nil {
+  panic(fmt.Sprintf(&#34;Failed to initialize Firebase Auth: %v&#34;, err))
+ }
+
+ // Initialize Redis Client
+ redisClient = redis.NewClient(&amp;redis.Options{
+  Addr:     &#34;localhost:6379&#34;, // Adjust the address as needed
+  Password: &#34;&#34;,               // No password by default
+  DB:       0,                 // Use default DB
+ })
+
+ _, err = redisClient.Ping(context.Background()).Result()
+ if err != nil {
+  panic(fmt.Sprintf(&#34;Failed to connect to Redis: %v&#34;, err))
+ }
+}
+
+func main() {
+ setupRoutes()
+
+ port := &#34;:8080&#34;
+ fmt.Printf(&#34;Starting server on port %s \n&#34;, port)
+ err := http.ListenAndServe(port, nil)
+ if err != nil {
+  fmt.Printf(&#34;Could not start server: %s \n&#34;, err)
+ }
+}
+
+// Setting up API endpoints
+func setupRoutes() {
+ versionPrefix := &#34;/api/v1&#34;
+ http.HandleFunc(versionPrefix+&#34;/ping&#34;, requestMiddleware(ping))
+ http.HandleFunc(&#34;/&#34;, FallbackHandler)
+}
+
+// Middleware to authenticate requests
+func requestMiddleware(next http.HandlerFunc) http.HandlerFunc {
+ return func(w http.ResponseWriter, r *http.Request) {
+  apiKey := r.Header.Get(&#34;X-API-Key&#34;)
+  if apiKey == &#34;&#34; {
+   http.Error(w, &#34;Missing API Key&#34;, http.StatusUnauthorized)
+   return
+  }
+
+  // Check cache in Redis for the API key
+  ctx := context.Background()
+  cachedToken, err := redisClient.Get(ctx, apiKey).Result()
+  if err == redis.Nil {
+   // Key not found in cache, verify with Firebase
+   token, err := firebaseAuth.VerifyIDToken(ctx, apiKey)
+   if err != nil {
+    http.Error(w, &#34;Invalid or Unauthorized API Key&#34;, http.StatusUnauthorized)
+    return
+   }
+
+   // Cache the token UID with a TTL of 10 minutes
+   err = redisClient.Set(ctx, apiKey, token.UID, 10*time.Minute).Err()
+   if err != nil {
+    http.Error(w, &#34;Failed to cache token&#34;, http.StatusInternalServerError)
+    return
+   }
+
+   fmt.Printf(&#34;Authenticated User ID (from Firebase): %s\n&#34;, token.UID)
+  } else if err != nil {
+   http.Error(w, &#34;Redis error&#34;, http.StatusInternalServerError)
+   return
+  } else {
+   // Cache hit, log the cached user ID
+   fmt.Printf(&#34;Authenticated User ID (from Redis): %s\n&#34;, cachedToken)
+  }
+
+  // Proceed to the next handler
+  next(w, r)
+ }
+}
+
+// Ping handler
+func ping(w http.ResponseWriter, r *http.Request) {
+ w.WriteHeader(http.StatusOK)
+ _, _ = w.Write([]byte(&#34;pong&#34;))
+}
+
+// Fallback Handler
+func FallbackHandler(w http.ResponseWriter, r *http.Request) {
+ http.Error(w, &#34;Invalid Endpoint&#34;, http.StatusNotFound)
+}
+</code></pre><p>After including Redis in the tech stack, you now have a performance boost in orders of magnitude.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I have been utilizing the power of caching in my projects, fastening the API responses and improving user experiences. While working with data-intensive APIs, cutting the time required to process the request is as important as optimizing the data processing itself.</p>
+<p>Achieving user authentication in a few milliseconds is a leap in your API server’s performance. As a general rule of thumb, I consider my APIs to respond in less than 300 milliseconds when interacting with features of my front end (this doesn’t apply to high levels of processing like using AI models or tedious computations). Cutting time in processing the request gives me more time to process the data and send it to the user.</p>
+<p>In the upcoming blogs, I will focus on more content-based system design for developers and help you optimize your backend services from the perspective of infrastructure and code.</p>
+<p>Follow me and stay tuned to learn more about such concepts!</p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>

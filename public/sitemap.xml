@@ -2,11 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://minimalistbook.com/posts/faster-developer-workflow-to-save-time-and-efforts-arch-tmux-and-much-more/</loc>
+    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://minimalistbook.com/posts/</loc>
+    <lastmod>2025-03-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://minimalistbook.com/posts/10-solid-tips-for-better-caching-practices/</loc>
+    <lastmod>2025-01-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://minimalistbook.com/posts/configuring-redis-with-golang-api-server-system-design-for-developers/</loc>
+    <lastmod>2025-01-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://minimalistbook.com/posts/here-are-5-books-that-changed-the-way-i-work-invest-and-live/</loc>
+    <lastmod>2024-09-18T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://minimalistbook.com/posts.bak/</loc>
     <lastmod>2024-08-18T13:34:54+02:00</lastmod>
   </url><url>
-    <loc>https://minimalistbook.com/posts/</loc>
-    <lastmod>2024-06-23T00:00:00+00:00</lastmod>
+    <loc>https://minimalistbook.com/posts/getting-most-of-the-books-with-5-rules-curated-with-experience/</loc>
+    <lastmod>2024-07-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://minimalistbook.com/posts/better_than_resume/</loc>
     <lastmod>2024-06-23T00:00:00+00:00</lastmod>
