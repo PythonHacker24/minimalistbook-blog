@@ -52,11 +52,11 @@ If you are new to the caching method, check out my previous blog.">
 <li>Freeing up the limited space in the in-memory caching database.</li>
 <li>Ensure requests made after a long time are updated from the primary database to ensure data is updated.</li>
 </ol>
-<pre tabindex="0"><code>err := redisClient.Set(ctx, &#34;key&#34;, &#34;value&#34;, time.Minute).Err()
-if err != nil {
-    log.Fatalf(&#34;Failed to set key: %v&#34;, err)
-}
-</code></pre><p>You can change the value of TTL to adjust the freshness of your data. Databases like Redis are equipped with expiration timers, so you don’t need to perform delete operations manually.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;key&#34;</span>, <span style="color:#e6db74">&#34;value&#34;</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>).<span style="color:#a6e22e">Err</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to set key: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>You can change the value of TTL to adjust the freshness of your data. Databases like Redis are equipped with expiration timers, so you don’t need to perform delete operations manually.</p>
 <h2 id="using-cache-invalidation">Using Cache Invalidation</h2>
 <p>Explicitly invalidating data as soon as an update is made on the primary database ensures that the service doesn’t end up serving older data.</p>
 <p>Doing this has a couple of benefits over security and user experience:</p>
@@ -65,47 +65,47 @@ if err != nil {
 <li>Older data can cause security issues. For example, if you block a user, a non-updated cache can unintentionally authorize access.</li>
 </ol>
 <p>You can delete a key in Redis by:</p>
-<pre tabindex="0"><code>err := redisClient.Del(ctx, &#34;key&#34;).Err()
-if err != nil {
-    log.Fatalf(&#34;Failed to delete key: %v&#34;, err)
-}
-</code></pre><p>It’s better to delete the data than to update it since it makes the system read the data from the primary database and perform write operations on the caching database, which is resource-intensive.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Del</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;key&#34;</span>).<span style="color:#a6e22e">Err</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to delete key: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It’s better to delete the data than to update it since it makes the system read the data from the primary database and perform write operations on the caching database, which is resource-intensive.</p>
 <p>A notification from the primary database about an update and delete operation on the caching database is usually less computationally intensive.</p>
 <p>This process can be done asynchronously, and in the case of Golang, goroutines can prove useful.</p>
 <h2 id="write-through-cache">Write-Through Cache</h2>
 <p>In certain cases, when the data is user-controlled and isn’t changed frequently (and in rare cases, not serving that data causes the whole chain of data to slow down), you would need to update the cache.</p>
-<pre tabindex="0"><code>func UpdateData(ctx context.Context, key string, value string) error {
-    err := db.Update(key, value)
-    if err != nil {
-        return err
-    }
-
-    return redisClient.Set(ctx, key, value, time.Minute).Err()
-}
-</code></pre><p>In this case, the updating cache mechanism can be done asynchronously, depending upon the requirements.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">UpdateData</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>).<span style="color:#a6e22e">Err</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this case, the updating cache mechanism can be done asynchronously, depending upon the requirements.</p>
 <h2 id="read-through-cache">Read-Through Cache</h2>
 <p>When data is needed to be fetched, first query the caching database. If the cache is missed, fetch the data from the primary database and write it to the cache asynchronously.</p>
-<pre tabindex="0"><code>func GetData(ctx context.Context, key string) (string, error) {
-    val, err := redisClient.Get(ctx, key).Result()
-    if err == redis.Nil {
-        // Cache missed! fetch from DB
-        val, err = db.Get(key)
-        if err != nil {
-            return &#34;&#34;, err
-        }
-        // Update the cache
-        go redisClient.Set(ctx, key, val, time.Minute)
-    } else if err != nil {
-        return &#34;&#34;, err
-    }
-    return val, nil
-}
-</code></pre><p>This is a basic checkpoint, but it’s necessary to remember so you don’t forget asynchronous updating and end up writing the cache database procedurally and causing latency.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetData</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>).<span style="color:#a6e22e">Result</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Cache missed! fetch from DB</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">key</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Update the cache</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>)
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">val</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is a basic checkpoint, but it’s necessary to remember so you don’t forget asynchronous updating and end up writing the cache database procedurally and causing latency.</p>
 <h2 id="cache-busting-with-versioned-keys">Cache Busting with Versioned Keys</h2>
 <p>Appending a version or timestamping cached keys can be a way to invalidate stale data. This ensures that outdated keys are ignored.</p>
-<pre tabindex="0"><code>versionedKey := fmt.Sprintf(&#34;key:%d&#34;, currentVersion)
-redisClient.Set(ctx, versionedKey, &#34;value&#34;, time.Minute)
-</code></pre><p>When hitting the cache, you can append the version number (or timestamp) and check the value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">versionedKey</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;key:%d&#34;</span>, <span style="color:#a6e22e">currentVersion</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">versionedKey</span>, <span style="color:#e6db74">&#34;value&#34;</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Minute</span>)
+</span></span></code></pre></div><p>When hitting the cache, you can append the version number (or timestamp) and check the value.</p>
 <h2 id="background-cache-refresh">Background Cache Refresh</h2>
 <p>There are two ways you can achieve a background refresh mechanism:</p>
 <ol>
