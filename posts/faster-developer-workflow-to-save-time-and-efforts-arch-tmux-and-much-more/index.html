@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta name="description" content="What? Are you a normie or something?
+If you write code mostly on Windows or MacOS, you are missing out on a lot, buddy.
+The proprietary garbage has kept you away from modifying your property to make these profit-making companies feel secure.
+What’s the difference between you and a 1960s-born old man reading the newspaper on his computer?
+What you need is a smooth developer workflow that will save you time switching from Windows to Windows and jumping from one file to another.">  
+
+  <title>
+    
+      Configuring Redis with Golang API Server — System Design for Developers
+    
+  </title>
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/" />
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.51652302d3a998bf7887aed5c2cf89141bbebdf45a2c8f87b0717a3cf4f51c4e53c694c328fb1de78c3a625a1c01f80745bf1f2f42c040647a245cbbb6c2d1d7.css" integrity="sha512-UWUjAtOpmL94h67Vws&#43;JFBu&#43;vfRaLI&#43;HsHF6PPT1HE5TxpTDKPsd54w6YlocAfgHRb8fL0LAQGR6JFy7tsLR1w==" />
+  
+</head>
+<body a="auto">
+        <main class="page-content" aria-label="Content">
+            <div class="w">
+                <div class="post-meta">
+                    <a href="/">..</a>
+
+                    <p>
+                        <time datetime="2025-03-14 00:00:00 &#43;0000 UTC">
+                            2025-03-14
+                        </time>
+                    </p>
+                </div>
+
+<article>
+    <h1>Configuring Redis with Golang API Server — System Design for Developers</h1>
+
+    
+
+    <p>What? Are you a normie or something?</p>
+<p>If you write code mostly on Windows or MacOS, you are missing out on a lot, buddy.</p>
+<p>The proprietary garbage has kept you away from modifying your property to make these profit-making companies feel secure.</p>
+<p>What’s the difference between you and a 1960s-born old man reading the newspaper on his computer?</p>
+<p>What you need is a smooth developer workflow that will save you time switching from Windows to Windows and jumping from one file to another.</p>
+<p>Stop being a computer normie and take control of your computer.</p>
+<p><em>I would also like to have a quick disclaimer here. Everything written here is based on my experience. You might be a game developer and need to use Windows for a living. In that case, I don’t blame you. You will just miss out on a fantastic developer experience (If you are a game developer, you must always use a mouse). So, take this article with a pinch of salt.</em></p>
+<h2 id="install-linux-as-your-os">Install Linux as your OS</h2>
+<p>I highly recommend that you first install Linux on your machine.</p>
+<p>Linux allows you to do whatever you want with the underlying software and any modifications you need. You should be able to do that, right? You have paid for the machine.</p>
+<p>Windows and MacOS have a very limited modification space, so getting to a point where you can switch between things is going to be insanely difficult.</p>
+<p>To make this more useful, install headless Linux distros like Arch Linux or Debain Headless without any fancy GUI. There is no GNOME or even XFCE (XFCE is good, though). You will just have a raw TTY terminal in front of you on which you can build your productivity empire.</p>
+<p>Installing Arch for the first time can be challenging, but you will learn a lot and get out of the normmie zone.</p>
+<h2 id="get-a-tilling-window-manager">Get a Tilling Window Manager</h2>
+<p>A tilling window manager helps you navigate through windows effortlessly.</p>
+<p>All the windows you spawn on the desktop will be spawned like tiles, filling the whole real estate of spaces on the screen.</p>
+<p>Windows and MacOS, by default, ship with floating window managers that you need your mouse to move around. It sucks a lot.</p>
+<p>You can move the windows with keyboard shortcuts in tiling window managers since the alignments are just basic geometry.</p>
+<p>I personally use DWM (dynamic window manager) by suckless <a href="https://suckless.org/">https://suckless.org/</a>.</p>
+<p>You can use any of your choice, like qtile (configuration in Python), Xmonad (configuration in Haskell), BSPWM, Awesome WM, etc. It’s your choice; make sure you pick a lighting-fast one.</p>
+<p>I use DWM because the config is in C, and I can modify the source code anytime I need to. If you are new to Tiling Managers, install DWM.</p>
+<p>Now, make sure to organize stuff well from the start of your day.</p>
+<p>For me, window 1 is for my terminal where I do my developer stuff.</p>
+<p>2 is for my browser, 3 is for my Discord, 9th (last) is for utilities like bluetoothctl and pavucontrol for my lofi music needs.</p>
+<h2 id="find-a-fast-terminal-shell-and-a-prompt">Find a Fast Terminal, Shell, and a Prompt</h2>
+<p>Now that you have a window manager, you need a terminal that wakes up blazingly fast.</p>
+<p>I personally use Wezterm these days since it’s fast and written in Rust. You can also use the Suckless terminal, Ghostly, or Kitty (I have used it for a long time).</p>
+<p>Also, use shells like ZSH (or fish, etc.) that are highly modifiable and fast enough to execute commands in no time. You need that snappy experience. I prefer ZSH.</p>
+<p>Don’t forget a beautiful prompt. I personally use Starship <a href="https://starship.rs/">https://starship.rs/</a>, which is fast and configurable.</p>
+<p>The goal is to execute commands faster and avoid lags between command executions. This will speed up your development process and prevent you from losing your mind.</p>
+<h2 id="use-tmux-for-terminal-multiplexing">Use Tmux For Terminal Multiplexing</h2>
+<p>Now, using Tmux with a tiling window manager is a bit weird since you have just tiled things up.</p>
+<p>But I think it’s better to have one window open to focus entirely on one thing at a time.</p>
+<p>Apart from this, Tmux is super helpful when creating sessions and windows, so you can enjoy them simultaneously.</p>
+<p>The rest of the good things about Tmux can be found on its GitHub or official website.</p>
+<p>It’s also helpful to become proficient with Tmux since you can store sessions on remote consoles (like cloud servers).</p>
+<h2 id="use-neovim-as-your-code-editor-or-as-an-ide">Use NeoVim as Your Code Editor (or as an IDE)</h2>
+<p>NeoVim keeps you from using your mouse.</p>
+<p>It keeps you from opening another window. It’s in your terminal — your home.</p>
+<p>I know it’s hard to become familiar with it, but start using it, and you will improve.</p>
+<p>NeoVim has a lot of plugin support, which you can use to make it a full-fledged IDE.</p>
+<p>There is nothing much to say about NeoVim since many of the things you need to know are explained by others (and there are many of them).</p>
+<h2 id="end-note">End Note</h2>
+<p>Everything I have stated here seems overwhelming for new users. But trust me, the speed you will gain will save you a lot of time and cognitive effort. It took me about 6–8 months to become good at it.</p>
+<p>I started because 1 senior developer told me to, and I just jumped in. It’s your time, too.</p>
+<p>Now, everything suggested here can be learned from various resources, and I am not going to repeat everything here (it will waste my time and yours, too).</p>
+
+</article>
+
+            </div>
+        </main>
+    </body></html>
